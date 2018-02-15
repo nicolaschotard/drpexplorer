@@ -1,0 +1,86 @@
+
+body{
+    /*font: 62.5% "Verdana", sans-serif;*/
+    margin: 10px;
+    font-family: "Verdana", sans-serif;
+    font-size: 80%;
+    /*background-color: #E4E4E4;*/
+}
+
+ul { margin-left:10px; padding-left:10px; }
+
+table.pretty {
+    margin: 1em 1em 1em 1em;
+    background: whitesmoke;
+    border-collapse: collapse;
+    font-size: 1em;
+    font-family: "Verdana", sans-serif;
+}
+table.pretty th, table.pretty td {
+    border: 1px silver solid;
+    padding: 0.2em;
+    text-align: center;
+}
+table.pretty th {
+    background: gainsboro;
+}
+table.pretty caption {
+    margin-left: inherit;
+    margin-right: inherit;
+}
+
+table.pretty ul {
+    margin-left: 10px; padding-left:10px;
+}
+
+/*.vertical{*/
+    /*-o-transform:rotate(-90deg);*/
+    /*-moz-transform: rotate(-90deg);*/
+    /*-webkit-transform:rotate(-90deg);*/
+    /*filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
+}
+
+
+
+ body{ font: 62.5% "Arial", sans-serif; margin: 50px;}
+ ul#icons {margin: 0; padding: 0;}
+ ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+ ul#icons span.ui-icon {float: left; margin: 0 4px;}
+ 
+ table.pretty {
+    margin: 1em 1em 1em 2em;
+    background: whitesmoke;
+    border-collapse: collapse;
+ }
+ table.pretty th, table.pretty td {
+    border: 1px silver solid;
+    padding: 0.2em;
+    text-align: center;
+ }
+ table.pretty th {
+    background: gainsboro;
+ }
+ table.pretty caption {
+    margin-left: inherit;
+    margin-right: inherit;
+ }
+ 
+ table.pretty ul {
+    margin-left: 10px; padding-left:10px;
+ }
+ 
+ a.phot:link { color:green; }
+ a.phot:hover { color:green; font-style:italic; }
+ a.phot:visited { color:green; font-weight:bold; }
+ 
+ a.nphot:link { color:red; }
+ a.nphot:hover { color:red; font-style:italic; }
+ a.nphot:visited { color:red; font-weight:bold;}
+ 
+ a.unkn:link { color:orange; }
+ a.unkn:hover { color:orange; font-style:italic; }
+ a.unkn:visited { color:orange; font-weight:bold;}
+ 
+ ul { margin-left:10px; padding-left:10px; }
+ body { margin:10px; }
+ h1 { color:#222; }

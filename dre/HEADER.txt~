@@ -1,0 +1,53 @@
+<head>
+<title>LSST DRE</title>
+<meta charset="UTF-8">
+<style>
+body {
+    background-color: #FFFFFF;
+}
+    
+.navbar {
+/* position: absolute; */
+/* top: 0; left: 0; */
+height: 47px;
+background-color: #F5F5F5;
+}
+  
+a {
+color: black;
+margin: 20px;
+font-size: 20px;
+text-decoration: none;
+font-family: Arial, Helvetica, sans-serif;
+}
+   
+a:hover {
+color: grey;
+font-size: 20px;
+}
+   
+a:focus {
+color: grey;
+font-size: 20px;
+}
+.navbar ul {
+    list-style-type: none;
+    text-align: center ;
+    line-height: 47px ;
+}
+.navbar li {
+    display: inline-block;
+}
+</style>
+</head>
+<header>
+<nav class="navbar">
+    <ul>
+        <li><a href="/" style="font-size: 26px; hover=grey; color: black;">HOME</a></li>
+        <li><a href="/dataproc" style="hover=grey; color: black;">Processing</a></li>
+        <li><a href="/catexp" style="hover=grey; color: black;">Catalogs</a></li>
+        <li><a href="/imexp" style="hover=grey; color: black;">Images</a></li>
+        <li><a href="/doc" style="hover=grey; color: black;">Documentation</a></li>
+    </ul>
+ </nav>
+</header>

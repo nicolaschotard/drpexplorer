@@ -1,0 +1,695 @@
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<a class="reference external image-reference" href="http://clusters.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/clusters/badge/?version=latest" /></a>
+<a class="reference external image-reference" href="https://landscape.io/github/nicolaschotard/Clusters/master"><img alt="Code Health" src="https://landscape.io/github/nicolaschotard/Clusters/master/landscape.svg?style=flat" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/nicolaschotard/Clusters"><img alt="Travis CI build status (Linux)" src="https://travis-ci.org/nicolaschotard/Clusters.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/nicolaschotard/Clusters"><object data="https://codecov.io/gh/nicolaschotard/Clusters/branch/master/graph/badge.svg" type="image/svg+xml">https://codecov.io/gh/nicolaschotard/Clusters/branch/master/graph/badge.svg</object></a>
+<hr class="docutils" />
+<p><strong>WARNING</strong>: Package under development</p>
+<hr class="docutils" />
+<!-- inclusion-marker-do-not-remove -->
+<div class="section" id="clusters">
+<h1>Clusters</h1>
+<p>Python package wrapping up the ongoing cluster analysis of the
+LSST/DESC cluster group. For more info, see the two following github
+repositories:</p>
+<ul class="simple">
+<li>A collection of <a class="reference external" href="https://github.com/lsst-france/LSST_notebooks">notebooks</a> for LSST</li>
+<li>The <a class="reference external" href="https://github.com/DarkEnergyScienceCollaboration/ReprocessingTaskForce">ReprocessingTaskForce</a> repository</li>
+</ul>
+<p>See also the private <a class="reference external" href="https://trello.com/b/Lhg6VAq2/clusters">Trello board</a> that we use to share our
+work.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation</h1>
+<p>To install:</p>
+<pre class="literal-block">
+git clone https://github.com/nicolaschotard/Clusters.git
+pip install Clusters/
+</pre>
+<p>To install in a local directory <tt class="docutils literal">mypath</tt>, use:</p>
+<pre class="literal-block">
+pip install --prefix='mypath' Clusters/
+</pre>
+<p>and do not forget to add it to your PYTHONPATH.</p>
+<p>To upgrade to a new version (after a <tt class="docutils literal">git pull</tt> or a local modification), use:</p>
+<pre class="literal-block">
+pip install --upgrade (--prefix='mypath') Clusters/
+</pre>
+<p>To install a release version (no release version available yet):</p>
+<pre class="literal-block">
+pip install http://github.com/nicolaschotard/Cluster/archive/v0.1.tar.gz
+</pre>
+<p>Also works with the master:</p>
+<pre class="literal-block">
+pip install (--upgrade) https://github.com/nicolaschotard/Clusters/archive/master.zip
+</pre>
+<p>In the future, release versions will be listed at this <a class="reference external" href="http://github.com/nicolaschotard/Clusters/releases">location</a>.</p>
+<p>Package developers will want to run:</p>
+<pre class="literal-block">
+python setup.py develop
+</pre>
+</div>
+<div class="section" id="dependencies">
+<h1>Dependencies</h1>
+<p><tt class="docutils literal">Clusters</tt> has for now the following dependencies (see the quick
+installs below):</p>
+<ul class="simple">
+<li>Python 2.7 and libraries listed in the <a class="reference external" href="requirements.txt">requirements</a> file</li>
+<li>The LSST DM <a class="reference external" href="https://developer.lsst.io/build-ci/lsstsw.html">stack</a>.</li>
+</ul>
+<p>Photometric redshift estimators:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://cesam.lam.fr/lephare/lephare.html">LEPHARE</a></li>
+<li><a class="reference external" href="http://www.stsci.edu/~dcoe/BPZ/">BPZ</a></li>
+</ul>
+<div class="section" id="python">
+<h2>Python</h2>
+<p>To install the python dependencies, simply do:</p>
+<pre class="literal-block">
+pip install -r requirements.txt
+</pre>
+</div>
+<div class="section" id="dm-stack-quick-install">
+<h2>DM stack quick install</h2>
+<p>This four-step procedure should allow you to install and configure a
+light version of the DM stack, but complete enough to use the
+<tt class="docutils literal">Clusters</tt> package. It should take ~10 minutes.</p>
+<ul>
+<li><p class="first">Get and install miniconda, if you do not have it already:</p>
+<pre class="literal-block">
+wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh
+bash miniconda.sh -b -p $HOME/miniconda
+export PATH=&quot;$HOME/miniconda/bin:$PATH&quot;
+conda config --set always_yes yes --set changeps1 no
+conda update -q conda
+</pre>
+</li>
+<li><p class="first">Install the needed part of the DM stack (we do not need the entire
+stack):</p>
+<pre class="literal-block">
+conda config --add channels http://conda.lsst.codes/stack/0.13.0
+conda create -q -n lsst python=2.7
+source activate lsst
+conda install -q gcc lsst-daf-persistence lsst-log lsst-afw lsst-skypix lsst-meas-algorithms lsst-pipe-tasks lsst-obs-cfht
+</pre>
+</li>
+<li><p class="first">To use this install of the DM stack, do not forget these following
+setups:</p>
+<pre class="literal-block">
+export PATH=&quot;$HOME/miniconda/bin:$PATH&quot;
+source activate lsst
+source eups-setups.sh
+setup daf_persistence
+setup afw
+setup obs_cfht
+</pre>
+</li>
+</ul>
+<p>If these steps went well, you should be able to use
+<tt class="docutils literal">clusters_data.py</tt> on one of the outputs of the DM stack (see below
+to get some data).</p>
+</div>
+<div class="section" id="lephare-quick-install">
+<h2>LEPHARE quick install</h2>
+<p>You can download and install a pre-configured version of LEPHARE as
+followed:</p>
+<ul>
+<li><p class="first">for linux system:</p>
+<pre class="literal-block">
+wget https://lapp-owncloud.in2p3.fr/index.php/s/MDaXObLSD9IVQ1B/download -O lephare.tar.gz
+tar zxf lephare.tar.gz
+</pre>
+</li>
+<li><p class="first">for mac:</p>
+<pre class="literal-block">
+wget https://lapp-owncloud.in2p3.fr/index.php/s/bMTLiwfGK1SpOqE/download -O lephare.tar.gz
+tar zxf lephare.tar.gz
+</pre>
+</li>
+</ul>
+<p>When the download is complete, exctract the <tt class="docutils literal">lephare</tt> directory where it
+suits you (<tt class="docutils literal">mypath</tt> in this example), and set the following
+environment variables (use setenv if needed):</p>
+<pre class="literal-block">
+export LEPHAREWORK=&quot;mypath/lephare/lephare_work&quot;
+export LEPHAREDIR=&quot;mypath/lephare/lephare_dev&quot;
+export PATH=&quot;$PATH:mypath/lephare/lephare_dev/source&quot;
+</pre>
+<p>You should now be able to run <tt class="docutils literal">clusters_zphot.py</tt> (only tested on
+linux systems).</p>
+</div>
+<div class="section" id="bpz-quick-install">
+<h2>BPZ quick install</h2>
+<p>The following steps can be copied/pasted in order to install and test
+BPZ quickly. It supposes that LEPHARE has been installed following the
+procedure shown in the previous section (you need
+<tt class="docutils literal"><span class="pre">$LEPHAREDIR/filt/cfht/megacam/\*.pb</span></tt>). Here are the <a class="reference external" href="http://www.stsci.edu/~dcoe/BPZ/install.html">official
+install instructions</a>
+for BPZ.</p>
+<p>Get BPZ:</p>
+<pre class="literal-block">
+export MYDIR=&quot;an install dir&quot; # change that line
+cd MYDIR
+wget http://www.stsci.edu/~dcoe/BPZ/bpz-1.99.3.tar.gz
+tar -xvf bpz-1.99.3.tar.gz
+</pre>
+<p>Create needed enironment vairables:</p>
+<pre class="literal-block">
+export BPZPATH=&quot;$MYDIR/bpz-1.99.3&quot;
+export PYTHONPATH=$PYTHONPATH:$BPZPATH
+export NUMERIX=numpy
+</pre>
+<p>Create the filter files using the LEPHARE install:</p>
+<pre class="literal-block">
+cd $BPZPATH/FILTER/
+cp $LEPHAREDIR/filt/cfht/megacam/*.pb .
+for f in *.pb; do mv &quot;$f&quot; &quot;CFHT_megacam_${f%.pb}.res&quot;; done
+</pre>
+<p>Test the install and the megacam filter:</p>
+<pre class="literal-block">
+wget https://lapp-owncloud.in2p3.fr/index.php/s/FP1vSMB7emLxwwg/download -O megacam_bpz.columns
+wget https://lapp-owncloud.in2p3.fr/index.php/s/HZbzCFLoy8Lcmwx/download -O megacam_bpz.in
+python $BPZPATH/bpz.py megacam_bpz.in -INTERP 2
+</pre>
+</div>
+</div>
+<div class="section" id="configuration-file">
+<h1>Configuration file</h1>
+<p>All the scripts will take the same input YAML file, which contains
+necessary informations for the analysis or simply for plotting purpose,
+such as the name of the studied cluster. Keys are listed below and are
+case-sensitive. Additional keys are simply ignored. You can find
+examples of these configuration files in the <a class="reference external" href="https://github.com/nicolaschotard/Clusters/blob/master/configs">config</a>
+directory, or clicking <a class="reference external" href="https://github.com/nicolaschotard/Clusters/blob/master/configs/MACSJ2243.3-0935.yaml">here</a>
+for MACSJ2243.3-0935.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="8%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">General keys</th>
+<th class="head">Type</th>
+<th class="head">Description [units]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">&quot;cluster&quot;</tt></td>
+<td>string</td>
+<td>Name of the cluster</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;ra&quot;</tt></td>
+<td>float</td>
+<td>RA coordinate of the cluster <strong>[deg]</strong></td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;dec&quot;</tt></td>
+<td>float</td>
+<td>DEC coordinate of the cluster <strong>[deg]</strong></td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;redshift&quot;</tt></td>
+<td>float</td>
+<td>Cluster redshift</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;butler&quot;</tt></td>
+<td>string</td>
+<td>Absolute path to the intput data (butler)</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;filter&quot;</tt></td>
+<td>list</td>
+<td>List of filters to be considered, e.g., 'ugriz' (Megacam filters)</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;patch&quot;</tt></td>
+<td>list</td>
+<td>List of patches to study</td>
+</tr>
+</tbody>
+</table>
+<p>The following list of optional keys can also be added to the
+configuration file. They correspond to specific configurations of the
+different steps of the analysis. While the previous list will most
+likely stay unchanged, the following one will be completed with new
+keys as this analysis will progress.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="8%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Optional keys</th>
+<th class="head">Type</th>
+<th class="head">Description [units]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">&quot;keys&quot;</tt></td>
+<td>dict</td>
+<td>Dictionary containing list of keys for the catalogs (see below)</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;zphot&quot;</tt></td>
+<td>dict</td>
+<td>Dictionary containing a list dictionnaries whose names identify
+the photoz run configuration (code, zpara, etc.)</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;code&quot;</tt></td>
+<td>string</td>
+<td>Name of the photoz code to run: &quot;lephare&quot; (default) or &quot;bpz&quot;</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;zpara&quot;</tt></td>
+<td>string</td>
+<td>Paths to the photoz code parameter file (see below)</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;zspectro_file&quot;</tt></td>
+<td>string</td>
+<td>File containing spectroz sample for LePhare training</td>
+</tr>
+<tr><td><tt class="docutils literal">&quot;mass&quot;</tt></td>
+<td>dict</td>
+<td>Dictionary specifying options to run the mass code</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><tt class="docutils literal">keys</tt> is a dictionary having the name of the different catalogs
+like <strong>deepCoadd_meas</strong>, <strong>deepCoadd_forced_src</strong> and
+<strong>forced_src</strong>. The list of keys for a given catalog can include:<ul>
+<li>&quot;the_full_name_of_a_key&quot;;</li>
+<li>&quot;*_a_part_of_a_key_name&quot; or &quot;an_other_part_of_a_key_name*&quot;
+preceded or followed by a *;</li>
+<li>a combination of all the above: [&quot;key1&quot;, &quot;ke*&quot;, &quot;*ey&quot;];</li>
+<li>or a &quot;*&quot; to get all keys available in a catalog, which is the
+default value for all catalogs.</li>
+</ul>
+</li>
+<li><tt class="docutils literal">zphot</tt> is a dictionary whose keys are user-defined names to identify a given zphot configuration. These names will be used to identify each photoz output in the final astropy table. Each configuration is itself a dictionary with optional keys (<tt class="docutils literal">code</tt>, <tt class="docutils literal">zpara</tt> and <tt class="docutils literal">zspectro_file</tt>). If <tt class="docutils literal">zphot</tt> is not specified the code will run using LePhare and a default parameter file. At the moment <tt class="docutils literal"><span class="pre">&quot;code&quot;:&quot;lephare&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;code&quot;:&quot;bpz&quot;</span></tt> are supported. More photoz code options might be added in the future.</li>
+<li><tt class="docutils literal">mass</tt> is a dictionary intended for user-defined options to run the mass code. At the moment, the only possible key is <tt class="docutils literal">zconfig</tt> whose argument should be one of the keys of the <tt class="docutils literal">zphot</tt> dictionary.</li>
+</ul>
+</div>
+<div class="section" id="general-usage">
+<h1>General usage</h1>
+<p><tt class="docutils literal">Clusters</tt> consists in several command-line executables that you
+have to run in the right order.</p>
+<ul>
+<li><p class="first">Get the input data and dump them in a hdf5 file containing astropy
+tables (see the <a class="reference external" href="http://clusters.readthedocs.io/en/latest/data.html">data format section</a> of the
+documentation for detail):</p>
+<pre class="literal-block">
+clusters_data.py config.yaml (--output data.hdf5)
+</pre>
+</li>
+</ul>
+<p>The memory you will need to load the data from the butler will for now
+depend on the number of catalogs (e.g. the <tt class="docutils literal">forced_src</tt> catalog),
+patch, visits and CCD you will be loading. For instance, if you try to
+load ~10 patches for 5 filters, and want all the keys of several
+catalogs including the <tt class="docutils literal">forced_src</tt> one (CCD-based), you could need
+up to 16GB of memory. The <strong>best practice</strong> would thus be to first
+check the list of existing keys of the catalogs you want to load
+(<tt class="docutils literal"><span class="pre">--show</span></tt> option), fill the configuration file with your selected
+list of keys using the <tt class="docutils literal">keys</tt> parameter for each catalog, and
+finally run <tt class="docutils literal">clusters_data.py</tt> using this configuration file. You
+can find an example for such cofiguration file <a class="reference external" href="https://raw.githubusercontent.com/nicolaschotard/Clusters/master/configs/MACSJ2243.3-0935_keys.yaml">there</a>
+and some detail on how to use the keys in the previous section. This
+will allow you to adapt the content of the output file and work with
+lighter data files.</p>
+<ul>
+<li><p class="first">Data validation plots can for now be found in the several notebooks available in:</p>
+<pre class="literal-block">
+https://github.com/nicolaschotard/Clusters/tree/master/notebooks
+</pre>
+</li>
+</ul>
+<p>Once the main catalogue has been written in <tt class="docutils literal">data.hdf5</tt> by <tt class="docutils literal">clusters_data.py</tt>,
+the remaning steps of the pipeline may all be run using the same command line format:</p>
+<pre class="literal-block">
+clusters_xxx.py config.yaml data.hdf5
+</pre>
+<p>By default, the outputs of each step (extinction, photoz, galaxy selection) are stored
+as additional paths in <tt class="docutils literal">data.hdf5</tt>. More details are given below.</p>
+<ul>
+<li><p class="first">Correct the data for Milky Way extinction:</p>
+<pre class="literal-block">
+clusters_extinction.py config.yaml data.hdf5 (--output extinction.hdf5)
+</pre>
+</li>
+</ul>
+<p>will save the extinction correction into path <tt class="docutils literal">extinction</tt> of <tt class="docutils literal">data.hdf5</tt>
+(if --output not specified) or <tt class="docutils literal">extinction.hdf5</tt> (if specified).</p>
+<ul>
+<li><p class="first">Get the photometric redshift using LEPHARE:</p>
+<pre class="literal-block">
+clusters_zphot.py config.yaml data.hdf5 (--extinction --dustmap sfd) (--output zphot.hdf5)
+</pre>
+<p>This loops over the user-defined zphot configuration keys given under <tt class="docutils literal">zphot</tt> in the <tt class="docutils literal">config.yaml</tt> file. The results of each photoz run (point estimate and pdz distribution) is stored in <tt class="docutils literal">data.hdf5</tt> (or <tt class="docutils literal">zphot.hdf5</tt> if a different output is required) in a path whose name corresponds to the user-defined zphot configuration keys.</p>
+<p>The <tt class="docutils literal"><span class="pre">--extinction</span></tt> option corrects the magnitudes according to what was previously computed by <tt class="docutils literal">clusters_extinction</tt>, before running the photoz. You can select the dust map using the <tt class="docutils literal"><span class="pre">--dustmap</span></tt> option, which must have also been added in the previous step.</p>
+</li>
+<li><p class="first">Flag galaxies to be removed for the lensing analysis:</p>
+<pre class="literal-block">
+clusters_getbackground.py config.yaml data.hdf5 (--zdata zdata.hdf5) (--zmin z_min)
+                          (--zmax z_max) (--thresh_prob threshold) (--rs)
+</pre>
+<p>will produce redshift-based flag for the selection of background galaxies.</p>
+<p>Each zphot user-defined configuration yields a new <tt class="docutils literal">flag_zphot_config_name</tt> path in <tt class="docutils literal">data.hdf5</tt>
+containing two columns:</p>
+<ul class="simple">
+<li>one <tt class="docutils literal">flag_z_hard</tt> corresponding to a hard redshift cut: all galaxies in [<tt class="docutils literal">z_min</tt>, <tt class="docutils literal">z_max</tt>] are flagged. Default is [0,z_cluster+0.1];</li>
+<li>one <tt class="docutils literal">flag_z_pdz</tt> corresponding to a pdz-based cut: if the probability of a galaxy to be located at z &lt; z_cluster + 0.1 is larger than <tt class="docutils literal">thresh_prob</tt> [%], the galaxy is flagged to be removed. Default is 1%.</li>
+</ul>
+<p>Galaxies belonging to the cluster red sequence may also be flagged using the <tt class="docutils literal"><span class="pre">--rs</span></tt>
+option. However, this option is not entirely reliable yet.</p>
+<p>Flags are set to <tt class="docutils literal">True</tt> when the galaxy has passed the cut (i.e. is the be kept for analysis).</p>
+</li>
+<li><p class="first">Compute the shear:</p>
+<pre class="literal-block">
+clusters_shear config.yaml input.hdf5 output.hdf5
+</pre>
+</li>
+<li><p class="first">A pipeline script which run all the above step in a raw with
+standard options:</p>
+<pre class="literal-block">
+clusters_pipeline config.yaml
+</pre>
+</li>
+</ul>
+<p>With any command, you can run with <tt class="docutils literal"><span class="pre">-h</span></tt> or <tt class="docutils literal"><span class="pre">--help</span></tt> to see all the
+optional arguments, e.g., <tt class="docutils literal">clusters_data.py <span class="pre">-h</span></tt>.</p>
+</div>
+<div class="section" id="test-the-code">
+<h1>Test the code</h1>
+<p>If you have installed all the dependencies previoulsy mentionned,
+download the following test data set:</p>
+<pre class="literal-block">
+wget https://lapp-owncloud.in2p3.fr/index.php/s/xG2AoS2jggbmP0k/download -O testdata.tar.gz
+tar zxf testdata.tar.gz
+</pre>
+<p>The <tt class="docutils literal">testdata</tt> directory contains a subset of the reprocessing data
+available for MACSJ2243.3-0935. It can be used as a test set of the
+code, but is not complete enough to run the full analysis. Here is the
+full structure and content of this directory, which has the exact same
+structure as a regulare DM stack output directory:</p>
+<pre class="literal-block">
+testdata/
+├── input
+│&nbsp;&nbsp; ├── _mapper
+│&nbsp;&nbsp; └── registry.sqlite3
+├── output
+│&nbsp;&nbsp; ├── coadd_dir
+│&nbsp;&nbsp; │&nbsp;&nbsp; ├── deepCoadd
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; ├── g
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; └── 0
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;     ├── 1,5
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;     └── 1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; └── skyMap.pickle
+│&nbsp;&nbsp; │&nbsp;&nbsp; ├── deepCoadd-results
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; └── g
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;     └── 0
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;         └── 1,5
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── bkgd-g-0-1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── calexp-g-0-1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── detectMD-g-0-1,5.boost
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── det-g-0-1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── forced_src-g-0-1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── meas-g-0-1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             ├── measMD-g-0-1,5.boost
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             └── srcMatch-g-0-1,5.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; ├── forced
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp; └── 08BO01
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;     └── SCL-2241_P1
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;         └── 2008-09-03
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;             └── g
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                 └── 0
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022175-00.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022175-09.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022176-00.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022176-09.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022177-00.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022177-09.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022178-00.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022178-09.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022179-00.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022179-09.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     ├── FORCEDSRC-1022180-00.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; │&nbsp;&nbsp;                     └── FORCEDSRC-1022180-09.fits
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── _parent -&gt; ../
+│&nbsp;&nbsp; └── _parent -&gt; ../input/
+└── travis_test.yaml
+</pre>
+<p>With this data set, you should be able to test most of the
+<tt class="docutils literal">Clusters</tt> parts. You can start with the test suite available in the
+tests directory. To do so, use:</p>
+<pre class="literal-block">
+python setup.py test
+</pre>
+<p>It will use the testdata that you have downloaded previoulsy and run
+the tests. This is also usefull if your goal is to add new tests.</p>
+</div>
+<div class="section" id="get-the-data">
+<h1>Get the data</h1>
+<div class="section" id="raw-dm-stack-outputs">
+<h2>Raw DM stack outputs</h2>
+<p>If you have installed <tt class="docutils literal">Clusters</tt> but do not have any data to run it
+on, you can use one of our re-processing outputs for
+MACSJ2243.3-0935. The corresponding configuration file is stored
+under <a class="reference external" href="configs/MACSJ2243.3-0935.yaml">configs/</a>. To use it, you either need
+to be connected at CC-IN2P3, or change the path to the butler inside
+the config file (if you already have a copy of this data). You could
+also mount sps on your personal computer (see this <a class="reference external" href="http://lsstnotes.readthedocs.io/en/latest/sshfs.html">how to</a>).</p>
+</div>
+<div class="section" id="clusters-data-py-output">
+<h2><tt class="docutils literal">clusters_data.py</tt> output</h2>
+<p>The first step of the <tt class="docutils literal">Clusters</tt> package is <tt class="docutils literal">clusters_data.py</tt>,
+which will get the data from the DM butler, convert them into
+<tt class="docutils literal">astropy</tt> tables and save them in a single <tt class="docutils literal">hdf5</tt> file. To do so,
+you need the LSST DM stack to be installed. If you want to skip this
+part and try the code whithout having to install the DM stack, you
+could also use the outputs of this first step that you can download
+from <a class="reference external" href="https://lsst-web.ncsa.illinois.edu/~nchotard/data/clusters/">this repository</a>, which
+contains the following files:</p>
+<pre class="literal-block">
+|-- CL0016
+|   |-- [4.4G]  CL0016_data.hdf5                     # full data set
+|   |-- [334M]  CL0016_filtered_data.hdf5            # only quality-filtered galaxies
+|   `-- [ 312]  CL0016.yaml                          # configuration file
+|-- MACSJ224330935
+|   |-- [5.6G]  MACSJ2243.3-0935_data.hdf5           # full data set
+|   |-- [367M]  MACSJ2243.3-0935_filtered_data.hdf5  # only quality-filtered galaxies
+|   |-- [ 329]  MACSJ2243.3-0935.yaml                # configuration file
+</pre>
+<p>This <a class="reference external" href="http://clusters.readthedocs.io/en/latest/data.html#work-with-the-table">short tutorial</a>
+explains how to use these <tt class="docutils literal">hdf5</tt> files to start an analysis.</p>
+</div>
+</div>
+<div class="section" id="tests">
+<h1>Tests</h1>
+<p>All the tests are being run in a docker container containing a light
+install of the stack along with all the needed data and softs.</p>
+<p>In order to build the container, you will need docker to be installed. If so, you can run:</p>
+<pre class="literal-block">
+./build_docker_image.sh
+</pre>
+<p>The containers are for now stored on the following depot:</p>
+<pre class="literal-block">
+https://hub.docker.com/r/nchotard/clusters-test/tags/
+</pre>
+<p>To push a new container, do:</p>
+<pre class="literal-block">
+docker ps  # to get the container ID that you want to save and push
+docker login &quot;docker.io&quot; -u nchotard  # need the password
+docker commit THEID docker.io/nchotard/clusters-test:NAME  # e.g, NAME = 'centos7-stackv13'
+docker push docker.io/nchotard/clusters-test:NAME
+</pre>
+<p>To use it, simply do:</p>
+<pre class="literal-block">
+docker run -itd --name clusterstest docker.io/nchotard/clusters-test:NAME
+docker attach clusterstest
+</pre>
+<p>Use CTRL-P CTRL-Q to quit without stopping it, or CTRL-C to quit and stop.</p>
+</div>
+</div>
+</body>
+</html>
