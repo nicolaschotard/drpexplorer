@@ -25,50 +25,13 @@ openTab = function(tab) {
   if (__indexOf.call(cache, tab) < 0) {
     cache.push(tab);
     switch (tab) {
-      case 'phase':
-        $('#phaseplot').loading();
-        $.getJSON('/data/drphase/', plotPhase);
+      case 'DRP':
         break;
-      case 'hubble':
-        $('[id^="hubbleplot"]').loading();
-        $.ajax({
-          url: '/data/hubble/',
-          dataType: 'json',
-          success: plotHubble,
-          error: function() {
-            $('#tabs').tabs('remove', $('#tabs').tabs('option', 'selected'));
-            return alert('No hubblizer info found!');
-          }
-        });
-        break;
-      case 'summary':
-        $('[id$="_hist"]').loading();
-        $('#stack').button().click(function() {
-          return toggleStack();
-        });
-        $.getJSON('/data/drhists/', plotHists);
-        break;
-      case 'quantity':
-        prepareQuantities();
-        break;
-      case 'spectra':
-        prepareSpectra();
-        break;
-      case 'lc':
-        prepareLC();
     }
-  }
-  if (tab === 'lc' && (globals.openthislc != null)) {
-    return plotThisLC();
   }
 };
 $(function() {
   var t;
-  if (window.innerWidth != null) {
-    $('[id$="_hist"]').css('width', window.innerWidth / 3.45);
-    $('#quantplot').css('width', $('#quantplot').height());
-    $('#quanthistx, #quanthisty').css('width', $('#quantplot').height() / 2);
-  }
   $('#tabs').tabs({
     cache: true,
     ajaxOptions: {
@@ -92,12 +55,6 @@ $(function() {
     }
     return _results;
   })();
-  if ($('#tabs').attr('lctarget')) {
-    $('#tabs').tabs('select', tabs.indexOf('lc'));
-    globals.openthislc = $('#tabs').attr('lctarget');
-    $('#tabs').removeAttr('lctarget');
-    cache.splice(0, 1);
-  }
   openTab(tabs[$('#tabs').tabs('option', 'selected')]);
   $(document).bind('keydown', function(event) {
     return window.currentKey = event.keyCode;
