@@ -2,10 +2,8 @@ from glob import glob
 from django.conf import settings
 from MarkupPy import markup
 
-HEADER = open(settings.BASE_DIR + "/dre/HEADER.txt", 'r').read()
-
 def init_page():
-    footer = '<p> %s - %s' % ("LSST data release processing explorer",
+    footer = '<p> %s - %s' % ("LSST Data Release Processing explorer",
                               settings.ADMIN[1])
     
     script = ['/static/flot/' + p.split('/')[-1]
@@ -17,13 +15,11 @@ def init_page():
                    #'/static/jquery/ui/jquery-ui-1.12.1/jquery-ui.js',
                    '/static/jquery/jquery.konami.js']
               )
-    script.extend(['/static/lsst/dre.js'])
-    #print('toto', HEADER, 'toto')
+    script.extend(['/static/lsst/explorer.js'])
     page = markup.page()
     page.init(charset='utf-8',
-              title='Data Release Explorer',
-              header=HEADER,
-              footer='<font size="3">%s</font><p>' % footer,
+              title='DRP explorer',
+              footer='<font size="2">%s</font><p>' % footer,
               script=script,
               css=('/static/lsst/css_hacks.css',
                    '/static/jquery2/ui/css/smoothness/jquery-ui-1.8.9.custom.css',
@@ -34,6 +30,4 @@ def init_page():
                    #'/static/jquery/ui/css/multi-select.css',
                    #'/static/jquery/ui/css/jquery.ui.selectmenu.css'
                ))
-    #page.addheader(HEADER)
-    #print('toto', page.header, 'toto')
     return page
