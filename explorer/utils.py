@@ -15,7 +15,7 @@ def init_page():
                    #'/static/jquery/ui/jquery-ui-1.12.1/jquery-ui.js',
                    '/static/jquery/jquery.konami.js']
               )
-script.extend(['/static/lsst/explorer.js'])
+    script.extend(['/static/lsst/explorer.js'])
     page = markup.page()
     page.init(charset='utf-8',
               title='DRP explorer',

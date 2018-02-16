@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class DreConfig(AppConfig):
+class ExplorerConfig(AppConfig):
     name = 'explorer'
