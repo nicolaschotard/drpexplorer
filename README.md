@@ -2,4 +2,4 @@
 
 Explore an LSST output Data Release Processing (DRP) repository
 
-Work in progree.
+Work in progress.
