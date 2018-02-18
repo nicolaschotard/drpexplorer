@@ -61,10 +61,12 @@ def explorer(request, **kwargs):
                     'skymap': ['Sky Map', default_page().__str__()],
                     'astrometry': ['Astrometry', default_page().__str__()],
                     'photometry': ['Photometry', default_page().__str__()],
+                    'refcat': ['Ref. Cat.', default_page().__str__()],
                     'images': ['Images', default_page().__str__()],
                     'catalogs': ['Catalogs', default_page().__str__()],
+                    'historic': ['Historic', default_page().__str__()],
                     'help': ['Help!', help()]
-                    }
+                   }
 
     default = list(possibletabs.keys())
     tabs = [['#'+t] + possibletabs[t] for t in default if t in possibletabs]
