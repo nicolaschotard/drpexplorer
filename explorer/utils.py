@@ -17,8 +17,10 @@ def init_page():
     script.extend(['/static/lsst/explorer.js'])
 
     # CSSs
-    theme = 'pepper-grinder'
-    theme = 'smoothness'
+    #theme = 'smoothness'
+    theme = 'base'
+    #theme = 'redmond'
+    #theme = 'start'
     themes = '/static/jquery/ui/jquery-ui-themes-1.12.1/themes'
     css = (themes + '/%s/jquery-ui.min.css' % theme,
            '/static/jquery/ui/css/multi-select.css',
