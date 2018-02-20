@@ -5,6 +5,7 @@ var __indexOf = Array.prototype.indexOf || function(item) {
   }
   return -1;
 };
+
 globals = window;
 globals.tabs = [];
 globals.openthislc = null;
@@ -14,6 +15,7 @@ cache = [];
 current_tab = null;
 plots = {};
 data = {};
+
 openTab = function(tab) {
   current_tab = tab;
   if (__indexOf.call(cache, tab) < 0) {
@@ -24,6 +26,7 @@ openTab = function(tab) {
     }
   }
 };
+
 $(function() {
   var t;
   $('#tabs').tabs({
