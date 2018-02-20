@@ -2,7 +2,7 @@ import os
 import sys
 
 # django settings
-os.environ['DJANGO_SETTINGS_MODULE'] = 'drpexplorer/settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'drpexplorer.settings'
 
 # extract django when runing the first time
 django_version = 'Django-2.0.2'
