@@ -1,6 +1,7 @@
 *.*~
 __pycache__
 *#*
+*.pyc
 
 # Django
 explorer/static/python/Django-2.0.2/
