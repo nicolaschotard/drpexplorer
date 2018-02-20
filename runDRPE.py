@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
         # Start building the command line that will be launched on the host
         # Open the ssh tunnel to the host
-        cmd = "ssh -X -Y %s -tt -L 20001:localhost:%i %s%s << EOF\n" % \
+        cmd = "ssh -X -Y %s -tt -L 20002:localhost:%i %s%s << EOF\n" % \
               ("-C" if args.compression else "", args.port, args.username, args.host)
 
         # Move to the working directory
@@ -71,9 +71,19 @@ if __name__ == '__main__':
         cmd += "if [[ ! -d %s ]]; then echo 'Error: directory %s does not exist'; exit 1; fi\n" % \
                (args.repo, args.repo)
         cmd += "cd %s\n" % args.repo
+
+        # Setup a version of the LSST stack
+        cmd += "source /sps/lsst/software/lsst_distrib/w_2017_49/loadLSST.bash \n"
+        cmd += "setup lsst_distrib \n"
             
         # Launch the explorer
         cmd += './runDRPE.py &\n'
+
+        # Wait for it to be launched
+        cmd += "export servers=\`netstat -lnt | grep 127.0.0.1:%i\`\n" % args.port
+        cmd += "while [[ \$servers != *'127.0.0.1:%i'* ]]; " % args.port + \
+               "do sleep 1; servers=\`netstat -lnt | grep 127.0.0.1:%i\`; echo \$servers; done\n" % \
+               args.port
         cmd += "printf '\\n    Copy/paste this URL into your browser to run the drp explorer" + \
                " localy \n\\x1B[01;92m       'http://localhost:20002/' \\x1B[0m\\n\\n'\n"
 
@@ -81,12 +91,12 @@ if __name__ == '__main__':
         cmd += 'fg\n'
 
         # And make sure we can kill it properly
-        cmd += "kill -9 `ps | grep jupyter | awk '{print $1}'`\n"
+        cmd += "kill -9 `ps | grep python | awk '{print $1}'`\n"
 
         # Close
         cmd += "EOF"
 
-        # Run jupyter
+        # Run the DRP explorer
         subprocess.call(cmd, stderr=subprocess.STDOUT, shell=True)
         
         
