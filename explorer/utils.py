@@ -13,7 +13,8 @@ def init_page():
     # jquery library
     script.extend(['/static/jquery/jquery-3.3.1.min.js',
                    '/static/jquery/ui/jquery-ui-1.12.1/jquery-ui.min.js',
-                   '/static/jquery/jquery.konami.js'])
+                  ]
+                 )
 
     # lsst JS scripts
     script.extend(['/static/lsst/explorer.js'])

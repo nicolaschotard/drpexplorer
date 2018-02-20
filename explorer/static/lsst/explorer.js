@@ -10,12 +10,6 @@ globals.tabs = [];
 globals.openthislc = null;
 globals.current_spec_exp = null;
 globals.previousPoint = null;
-$.getJSON('/preferences/', function(data) {
-  return globals.preferences = data;
-});
-$(window).konami(function() {
-  return alert('You, my friend, are a geek...');
-});
 cache = [];
 current_tab = null;
 plots = {};
