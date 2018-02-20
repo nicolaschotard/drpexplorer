@@ -9,24 +9,25 @@ def init_page():
     # flot library
     script = ['/static/flot/' + p.split('/')[-1]
               for p in glob(settings.STATICFILES_DIRS[0] + '/flot/*.min.js')]
+
     # jquery library
     script.extend(['/static/jquery/jquery-3.3.1.min.js',
                    '/static/jquery/ui/jquery-ui-1.12.1/jquery-ui.min.js',
                    '/static/jquery/jquery.konami.js'])
+
     # lsst JS scripts
     script.extend(['/static/lsst/explorer.js'])
 
     # CSSs
-    #theme = 'smoothness'
-    theme = 'base'
-    #theme = 'redmond'
+    #theme = 'base'
+    theme = 'redmond'
     #theme = 'start'
     themes = '/static/jquery/ui/jquery-ui-themes-1.12.1/themes'
     css = (themes + '/%s/jquery-ui.min.css' % theme,
            '/static/jquery/ui/css/multi-select.css',
            '/static/jquery/ui/css/jquery.ui.selectmenu.css',
            '/static/lsst/css_hacks.css',
-       )
+          )
 
     # Web page intitialization
     page = markup.page()
