@@ -73,7 +73,7 @@ if __name__ == '__main__':
         cmd += "cd %s\n" % args.repo
             
         # Launch the explorer
-        cmd += './rundDRPE.py &\n'
+        cmd += './runDRPE.py &\n'
         cmd += "printf '\\n    Copy/paste this URL into your browser to run the drp explorer" + \
                " localy \n\\x1B[01;92m       'http://localhost:20002/' \\x1B[0m\\n\\n'\n"
 
