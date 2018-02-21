@@ -21,8 +21,8 @@ def init_page():
 
     # CSSs
     #theme = 'base'
-    theme = 'redmond'
-    #theme = 'start'
+    #theme = 'redmond'
+    theme = 'start'
     themes = '/static/jquery/ui/jquery-ui-themes-1.12.1/themes'
     css = (themes + '/%s/jquery-ui.min.css' % theme,
            '/static/jquery/ui/css/multi-select.css',

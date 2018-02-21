@@ -30,7 +30,7 @@ def run(**kwargs):
     """
     print(termcolors.colorize('Launching server...', fg='green'))
     call_command('runserver', str(kwargs.get('port', 4242)),
-                 use_reloader=kwargs.get('reload', False))
+                 use_reloader=kwargs.get('reload', True))
 
 if __name__ == '__main__':
 

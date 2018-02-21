@@ -2,15 +2,45 @@ import os
 from django.conf import settings
 from MarkupPy import markup
 from explorer import utils
+from butler import processing
+
+
+BUTLER = processing.Butler()
 
 
 def home():
-    """ Overview info and plots"""
+    """General info."""
     overview = markup.page()
     msg1 = 'LSST Data Release Explorer'
     overview.span(msg1, style='float:left; font-size:100%;')
     return overview
 
+
+def drp():
+    """Overview of the current DRP content."""
+    drp = markup.page()
+    drp.addcontent("<h2>General info on the current DRP</h2>")
+    drp.addcontent("<h3>Paths to the repositories</h3>")
+    drp.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)
+    drp.addcontent("<p> - <b>Output</b>: %s</p>" % BUTLER.repo_output) 
+    drp.addcontent("<h3>Mapper info</h3>")
+    drp.addcontent("<p> - <b>Package</b>: %s" % BUTLER.mapper_package)
+    drp.addcontent("<p> - <b>Camera</b>: %s" % BUTLER.mapper_camera)
+    drp.addcontent("<p> - <b>Name</b>: %s" % BUTLER.mapper_name)
+    drp.addcontent("<h3>Other info</h3>")
+    drp.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
+    drp.addcontent("<p> - <b>Sky map name</b>: %s</p>" % str(BUTLER.skymap_name))
+    #drp.addcontent(str(BUTLER.skymap_doc))
+    return drp
+
+
+def visits():
+    """List of visits."""
+    visits = markup.page()
+    visits.addcontent(str(BUTLER.visits['g'][0]))
+    visits.addcontent(str(len(BUTLER.visits['g'])))
+    return visits
+    
 
 def default_page():
     """ Default output"""
@@ -55,9 +85,9 @@ def explorer(request, **kwargs):
     page = utils.init_page()
 
     # tabs
-    possibletabs = {'home': ['Home', home().__str__()],
-                    'drp': ['DRP', default_page().__str__()],
-                    'visits': ['Visits', default_page().__str__()],
+    possibletabs = {#'home': ['Home', home().__str__()],
+                    'drp': ['DRP', drp().__str__()],
+                    'visits': ['Visits', visits().__str__()],
                     'skymap': ['Sky Map', default_page().__str__()],
                     'astrometry': ['Astrometry', default_page().__str__()],
                     'photometry': ['Photometry', default_page().__str__()],

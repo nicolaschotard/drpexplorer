@@ -33,10 +33,16 @@ class Butler(object):
         
         # Skymap
         self.skymap = self.butler.get("deepCoadd_skyMap")
-        self.skymap_class = self.skymap.__class__
+        self.skymap_name = self.skymap.__class__.__name__
+        self.skymap_doc = self.skymap.__doc__
         self.skymap_config = self.skymap.config.toDict()
         self.skymap_numtracts = self.skymap._numTracts
         self.skymap_numpatches = self.skymap[0].getNumPatches()
+        
+        # Mapper info
+        self.mapper_name = self.mapper.__name__
+        self.mapper_package = self.mapper.packageName 
+        self.mapper_camera = self.mapper.getCameraName()
         
 
         # Packages
