@@ -1,4 +1,5 @@
 import os
+import re
 import glob
 import lsst.daf.persistence as dafPersist
 
@@ -11,7 +12,7 @@ class Butler(object):
     def __init__(self, drp_path=None):
         
         # Load the bulter
-        self.drp_path = DRPPATH
+        self.drp_path = drp_path if drp_path is not None else DRPPATH
         self.butler = dafPersist.Butler(self.drp_path)
         self.mapper = self.butler._getDefaultMapper()
         self.repoData = self.butler._repos.outputs()[0]
@@ -19,7 +20,7 @@ class Butler(object):
         # Load some basic info on the current DRP
         self.repo_input = self._get_repo("input")
         self.repo_output = self._get_repo("output")
-        
+
         # Load some dataids
         self.datasetTypes = self._get_datasetTypes()
         self.dataIds = {'raw': self.get_dataIds('raw'),

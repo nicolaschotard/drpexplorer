@@ -3,9 +3,9 @@ from django.conf import settings
 from MarkupPy import markup
 
 def init_page():
-    footer = '<p> %s - %s' % ("LSST Data Release Processing explorer",
-                              settings.ADMIN[1])
-
+    footer = '%s - %s' % ("LSST Data Release Processing explorer",
+                          settings.ADMIN[1])
+    footer = "<div align='right'><font size='2'>%s</font><?div>" % footer
     # flot library
     script = ['/static/flot/' + p.split('/')[-1]
               for p in glob(settings.STATICFILES_DIRS[0] + '/flot/*.min.js')]
@@ -18,23 +18,23 @@ def init_page():
 
     # lsst JS scripts
     script.extend(['/static/lsst/explorer.js'])
-
+    
     # CSSs
     #theme = 'base'
     #theme = 'redmond'
     theme = 'start'
     themes = '/static/jquery/ui/jquery-ui-themes-1.12.1/themes'
-    css = (themes + '/%s/jquery-ui.min.css' % theme,
+    css = ('/static/lsst/css_hacks.css',
+           themes + '/%s/jquery-ui.min.css' % theme,
            '/static/jquery/ui/css/multi-select.css',
-           '/static/jquery/ui/css/jquery.ui.selectmenu.css',
-           '/static/lsst/css_hacks.css',
+           '/static/jquery/ui/css/jquery.ui.selectmenu.css'
           )
 
     # Web page intitialization
     page = markup.page()
     page.init(charset='utf-8',
               title='DRP explorer',
-              footer='<font size="2">%s</font><p>' % footer,
+              footer=footer,
               script=script,
               css=css)
     return page
