@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from explorer import explorer as Explorer
+from drpexplorer.explorer import explorer as Explorer
 
 
 def explorer(request):

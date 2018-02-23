@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from argparse import ArgumentDefaultsHelpFormatter
 import subprocess
 
-import explorer
+from drpexplorer import explorer
 
 from django.core.management import call_command
 from django.utils import termcolors

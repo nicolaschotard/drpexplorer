@@ -120,6 +120,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "explorer/static")]
+STATIC_URL = "/drpexplorer/explorer/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, STATIC_URL[1:])]
 

@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from explorer import views, explorer
+from drpexplorer.explorer import views, explorer
 
 
 # Main url patterns

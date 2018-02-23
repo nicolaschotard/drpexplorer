@@ -1,8 +1,8 @@
 import os
 from django.conf import settings
 from MarkupPy import markup
-from explorer import utils
-from butler import processing
+from drpexplorer.explorer import utils
+from drpexplorer.butler import processing
 
 
 BUTLER = processing.Butler()
@@ -71,9 +71,9 @@ def default_page():
 
 def js9preload(filename=None):
     #return filename if filename is not None else "toto"
-    js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
-    js9 = js9.replace("static/js9/", "../explorer/static/js9/") #"links/%s" % image_name)
-    #js9 = js9.replace("IMAGETOLOAD", filename[-1]) #"links/%s" % image_name)
+    js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
+    js9 = js9.replace("drpexplorer/", "../drpexplorer/") #"links/%s" % image_name)
+    js9 = js9.replace("IMAGETOLOAD", filename) #"links/%s" % image_name)
     return js9
 
 
@@ -84,14 +84,14 @@ def images():
     #os.symlink(image_path, "links/%s" % image_name)
     #js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
     #js9 = js9.replace("IMAGETOLOAD", filename) #"links/%s" % image_name)
-    html = open(os.path.join(settings.BASE_DIR, "explorer/js9_viewer.txt"), "r").read()
+    html = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_viewer.txt"), "r").read()
     html = html.replace("JS9CONTENT", "toto")
     return html
 
 
 def js9():
     msg = "This JS9 window will use the browser's ability to read <b>local</b> files only"
-    js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
+    js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
     js9 = js9.replace("JS9.Preload('IMAGETOLOAD')", "")
     js9 = js9.replace("INFO", msg)
     return js9
@@ -99,7 +99,7 @@ def js9():
 
 def help():
 
-    f = open(os.path.join(settings.BASE_DIR, 'explorer/static/help.txt'))
+    f = open(os.path.join(settings.BASE_DIR, 'drpexplorer/explorer/static/help.txt'))
     help = f.read()
     f.close()
     return help
