@@ -24,9 +24,9 @@ def init_page():
     script.extend([staticpath + 'lsst/explorer.js'])
     
     # CSSs
-    #theme = 'base'
+    theme = 'base'
     #theme = 'redmond'
-    theme = 'start'
+    #theme = 'start'
     themes = staticpath + 'jquery/ui/jquery-ui-themes-1.12.1/themes'
     css = (staticpath + 'lsst/css_hacks.css',
            themes + '/%s/jquery-ui.min.css' % theme,
