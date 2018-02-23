@@ -69,30 +69,31 @@ def default_page():
     return page
 
 
-def js9():
+def js9preload(filename=None):
+    #return filename if filename is not None else "toto"
+    js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
+    #js9 = js9.replace("IMAGETOLOAD", filename[-1]) #"links/%s" % image_name)
+    return js9
+
+
+def images():
     #os.remove()
-    image_path = BUTLER.repo_input + "/" + "raw/08BO01/SCL-2241_P1/2008-09-02/u/1022062p.fits.fz"
-    image_name = image_path.split("/")[-1]
-    os.link(image_path, "links/%s" % image_name)
-    js9 = open("js9_content.html", "r").read()
-    js9 = js9.replace("IMAGETOLOAD", "links/")
-    html = open("js9_viewer.html", "r").read()
-    html = html.replace("JS9CONTENT", js9)
+    #image_path = BUTLER.repo_input + "/" + "raw/08BO01/SCL-2241_P1/2008-09-02/u/1022062p.fits.fz"
+    #image_name = image_path.split("/")[-1]
+    #os.symlink(image_path, "links/%s" % image_name)
+    #js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
+    #js9 = js9.replace("IMAGETOLOAD", filename) #"links/%s" % image_name)
+    html = open(os.path.join(settings.BASE_DIR, "explorer/js9_viewer.txt"), "r").read()
+    html = html.replace("JS9CONTENT", "toto")
     return html
-#    head = """<head>
-#    <link rel="import" href="explorer/static/js9/js9.html">
-#    </head>
-#    """
-#    print(settings.BASE_DIR)
-#    html = open(os.path.join(settings.BASE_DIR, "explorer/static/js9/js9.html"), 'r')
-#    content = html.read()
-#    html.close()
-#    content = content.replace('src="', 'src="file://%s/explorer/static/js9/' % \
-#                              settings.BASE_DIR)
-#    content = content.replace('href="', 'href="file://%s/explorer/static/js9/' % \
-#                              settings.BASE_DIR)
-#    print(content)
-#    return head
+
+
+def js9():
+    msg = "This JS9 window will use the browser's ability to read <b>local</b> files only"
+    js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
+    js9 = js9.replace("JS9.Preload('IMAGETOLOAD')", "")
+    js9 = js9.replace("INFO", msg)
+    return js9
 
 
 def help():
@@ -103,12 +104,8 @@ def help():
     return help
 
 
-def explorer(request, **kwargs):
-    """DRP explorer main.
-
-    :param request:
-    :param **kwargs:
-    """
+def explorer():
+    """DRP explorer main."""
     # Initialize html page
     page = utils.init_page()
 
@@ -120,9 +117,10 @@ def explorer(request, **kwargs):
                     'astrometry': ['Astrometry', default_page().__str__()],
                     'photometry': ['Photometry', default_page().__str__()],
                     'refcat': ['Ref. Cat.', default_page().__str__()],
-                    'images': ['Images', js9().__str__()],
+                    'images': ['Images', images().__str__()],
                     'catalogs': ['Catalogs', default_page().__str__()],
                     'historic': ['Historic', default_page().__str__()],
+                    'js9': ['JS9', js9().__str__()],
                     'help': ['Help!', help()]
                    }
 

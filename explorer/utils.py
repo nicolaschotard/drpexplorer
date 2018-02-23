@@ -3,6 +3,8 @@ from django.conf import settings
 from MarkupPy import markup
 
 def init_page():
+    #head = '<link type="image/x-icon" rel="shortcut icon" href="static/js9/favicon.ico">'
+    head = '<link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">'
     footer = '%s - %s' % ("LSST Data Release Processing explorer",
                           settings.ADMIN[1])
     footer = "<div align='right'><font size='2'>%s</font><?div>" % footer
@@ -36,5 +38,7 @@ def init_page():
               title='DRP explorer',
               footer=footer,
               script=script,
-              css=css)
+              css=css
+              )
+    page.addheader(head)
     return page

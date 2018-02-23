@@ -16,9 +16,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from explorer import views
+from explorer import views, explorer
 
 
 # Main url patterns
 urlpatterns = [path('admin/', admin.site.urls),                  # admin
-               path('', views.explorer, name='DRP explorer')]    # explorer
+               path('', views.explorer, name='DRP explorer')]   # explorer
+
+urlpatterns += [path('js9preload/', views.js9preload),
+                path('js9preload/<path:filename>', views.js9preload)
+               ]
