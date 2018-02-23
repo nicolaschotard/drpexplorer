@@ -70,20 +70,21 @@ def default_page():
 
 
 def js9preload(filename=None):
-    #return filename if filename is not None else "toto"
+    
+    if not os.path.isdir("drpexplorer/explorer/static/links/"):
+        os.mkdir("drpexplorer/explorer/static/links/")
     js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
     js9 = js9.replace("drpexplorer/", "../drpexplorer/") #"links/%s" % image_name)
-    js9 = js9.replace("IMAGETOLOAD", filename) #"links/%s" % image_name)
+    
+    filename = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/02-singleFrameDriver/pardir/output/calexp/08BO01/SCL-2241_P2/2008-09-04/r/bkgd-1022360-22.fits"
+    basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
+    if not os.path.exists(basename):
+        os.symlink(filename, basename)
+    js9 = js9.replace("IMAGETOLOAD", "../%s" % basename) #"links/%s" % image_name)
     return js9
 
 
 def images():
-    #os.remove()
-    #image_path = BUTLER.repo_input + "/" + "raw/08BO01/SCL-2241_P1/2008-09-02/u/1022062p.fits.fz"
-    #image_name = image_path.split("/")[-1]
-    #os.symlink(image_path, "links/%s" % image_name)
-    #js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
-    #js9 = js9.replace("IMAGETOLOAD", filename) #"links/%s" % image_name)
     html = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_viewer.txt"), "r").read()
     html = html.replace("JS9CONTENT", "toto")
     return html

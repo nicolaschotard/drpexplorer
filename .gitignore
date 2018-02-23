@@ -5,6 +5,7 @@ __pycache__
 *.ipynb_checkpointsB
 
 # Libraries
-explorer/static/python/Django-2.0.2/
-explorer/static/js9/
-explorer/links/
+drpexplorer/explorer/static/python/Django-2.0.2/
+drpexplorer/explorer/static/js9/
+drpexplorer/explorer/static/links/
+

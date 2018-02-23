@@ -122,4 +122,3 @@ USE_TZ = True
 
 STATIC_URL = "/drpexplorer/explorer/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, STATIC_URL[1:])]
-

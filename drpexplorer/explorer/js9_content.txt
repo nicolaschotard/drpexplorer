@@ -14,7 +14,7 @@
     <title>JS9 viewer</title>
     
   </head>
-  <body onload="JS9.Preload('IMAGETOLOAD');">
+  <body onload="JS9.Preload('IMAGETOLOAD', {scale: 'log', zoom: 'to fit', fits2fits:'always'});">
      <p>INFO</p>      
      <table>
       <tr>
