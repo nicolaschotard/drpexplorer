@@ -4,6 +4,6 @@
     onclick="window.open('js9preload/lsst_logo.png', 
                          'newwindow', 
                          'width=800,height=800'); 
-              return false;"
+             return false;"
  >Click me</a>
 </html>

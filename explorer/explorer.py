@@ -72,6 +72,7 @@ def default_page():
 def js9preload(filename=None):
     #return filename if filename is not None else "toto"
     js9 = open(os.path.join(settings.BASE_DIR, "explorer/js9_content.txt"), "r").read()
+    js9 = js9.replace("static/js9/", "../explorer/static/js9/") #"links/%s" % image_name)
     #js9 = js9.replace("IMAGETOLOAD", filename[-1]) #"links/%s" % image_name)
     return js9
 

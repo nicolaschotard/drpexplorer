@@ -12,6 +12,7 @@
     <script type="text/javascript" src="static/js9/js9.js"></script>
     <script type="text/javascript" src="static/js9/js9plugins.js"></script>
     <title>JS9 viewer</title>
+    
   </head>
   <body onload="JS9.Preload('IMAGETOLOAD');">
      <p>INFO</p>      
