@@ -17,9 +17,9 @@ if not os.path.exists(ppath+django_version):
 sys.path.insert(0, ppath+django_version)
 sys.path.insert(0, ppath)
 
-# Create a links directory the first time we run
-linkspath = os.path.join(os.path.dirname(__file__), 'links')
-if not os.path.isdir(linkspath):
-    os.mkdir(linkspath)
+# Create a links directory the first time we run
+links_path = os.path.join(os.path.dirname(__file__), 'links')
+if not os.path.isdir(links_path):
+    os.mkdir(links_path)
 
 __all__ = ['explorer', 'butler', 'db']
