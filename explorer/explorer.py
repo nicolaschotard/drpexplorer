@@ -70,20 +70,29 @@ def default_page():
 
 
 def js9():
-    head = """<head>
-    <link rel="import" href="explorer/static/js9/js9.html">
-    </head>
-    """
-    print(settings.BASE_DIR)
-    html = open(os.path.join(settings.BASE_DIR, "explorer/static/js9/js9.html"), 'r')
-    content = html.read()
-    html.close()
-    content = content.replace('src="', 'src="file://%s/explorer/static/js9/' % \
-                              settings.BASE_DIR)
-    content = content.replace('href="', 'href="file://%s/explorer/static/js9/' % \
-                              settings.BASE_DIR)
-    print(content)
-    return head
+    #os.remove()
+    image_path = BUTLER.repo_input + "/" + "raw/08BO01/SCL-2241_P1/2008-09-02/u/1022062p.fits.fz"
+    image_name = image_path.split("/")[-1]
+    os.link(image_path, "links/%s" % image_name)
+    js9 = open("js9_content.html", "r").read()
+    js9 = js9.replace("IMAGETOLOAD", "links/")
+    html = open("js9_viewer.html", "r").read()
+    html = html.replace("JS9CONTENT", js9)
+    return html
+#    head = """<head>
+#    <link rel="import" href="explorer/static/js9/js9.html">
+#    </head>
+#    """
+#    print(settings.BASE_DIR)
+#    html = open(os.path.join(settings.BASE_DIR, "explorer/static/js9/js9.html"), 'r')
+#    content = html.read()
+#    html.close()
+#    content = content.replace('src="', 'src="file://%s/explorer/static/js9/' % \
+#                              settings.BASE_DIR)
+#    content = content.replace('href="', 'href="file://%s/explorer/static/js9/' % \
+#                              settings.BASE_DIR)
+#    print(content)
+#    return head
 
 
 def help():
@@ -111,7 +120,7 @@ def explorer(request, **kwargs):
                     'astrometry': ['Astrometry', default_page().__str__()],
                     'photometry': ['Photometry', default_page().__str__()],
                     'refcat': ['Ref. Cat.', default_page().__str__()],
-                    'images': ['Images', default_page().__str__()],
+                    'images': ['Images', js9().__str__()],
                     'catalogs': ['Catalogs', default_page().__str__()],
                     'historic': ['Historic', default_page().__str__()],
                     'help': ['Help!', help()]
