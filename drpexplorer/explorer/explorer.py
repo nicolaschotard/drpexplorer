@@ -70,17 +70,17 @@ def default_page():
 
 
 def js9preload(filename=None):
-    
+    print(filename)
     if not os.path.isdir("drpexplorer/explorer/static/links/"):
         os.mkdir("drpexplorer/explorer/static/links/")
     js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
-    js9 = js9.replace("drpexplorer/", "../drpexplorer/") #"links/%s" % image_name)
-    
-    filename = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/02-singleFrameDriver/pardir/output/calexp/08BO01/SCL-2241_P2/2008-09-04/r/bkgd-1022360-22.fits"
+    #js9 = js9.replace("drpexplorer/", "../drpexplorer/") #"links/%s" % image_name)
+    js9 = js9.replace("drpexplorer/", "/drpexplorer/drpexplorer/") #"links/%s" % image_name)    
+    #filename = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/02-singleFrameDriver/pardir/output/calexp/08BO01/SCL-2241_P2/2008-09-04/r/bkgd-1022360-22.fits"
     basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
     if not os.path.exists(basename):
         os.symlink(filename, basename)
-    js9 = js9.replace("IMAGETOLOAD", "../%s" % basename) #"links/%s" % image_name)
+    js9 = js9.replace("IMAGETOLOAD", "/drpepxlorer/explorer/static/links/%s" % basename) #"links/%s" % image_name)
     return js9
 
 
@@ -92,8 +92,8 @@ def images():
 
 def js9():
     msg = "This JS9 window will use the browser's ability to read <b>local</b> files only"
-    js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
-    js9 = js9.replace("JS9.Preload('IMAGETOLOAD')", "")
+    lines = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").readlines()
+    js9 = "".join([(line if not '<body' in line else '<body>') for line in lines])
     js9 = js9.replace("INFO", msg)
     return js9
 
