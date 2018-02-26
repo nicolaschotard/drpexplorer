@@ -49,21 +49,31 @@ class Butler(object):
         # Packages
         self.packages = self.butler.get('packages')
         
-        # Load the available list of filter from the raw data
-        
-        
+        # Other
+        self.configs = self._load_configs()
+        self.schemas = self._load_schemas()
+            
     def _get_repo(self, repo):
         """Get the full path of the input/output repository."""
         if repo == 'output':
             return self.repoData.cfgRoot               # output path (drp_path)
         elif repo == 'input':
             parentRepoData = self.repoData.getParentRepoDatas()[0]  # input
-            return parentRepoData.cfgRoot                # input path -> ../input in this case
+            return os.path.realpath(parentRepoData.cfgRoot)                # input path -> ../input in this case
         else:
             raise IOError("Wrong repo name. You should not be calling this internal method anyway.")
             
     def _get_datasetTypes(self):
         return sorted(self.repoData.repo._mapper.mappings.keys())
+    
+#    def _get_visit_datasetTypes(self):
+#        vds = []
+#        for dataset in but.datasetTypes:
+#        try:
+#            if but.butler.datasetExists(dataset, dataId=but.dataIds['raw'][0]):
+#                vds.append(dataset)
+#        except:
+#            continue
 
     def get_catIdKeys(self, datasetType):
         """Get the list of ID keys for a given catalog."""
@@ -101,4 +111,31 @@ class Butler(object):
                                   for dataid in self.dataIds['raw'] if dataid['filter'] == filt]))
                   for filt in self.filters}
         return visits
+    
+    def _load_configs(self):
+        configs = self._load_generic_dataset("config")
+        return {cfg: configs[cfg].toDict() for cfg in configs}
+        
+    def _load_schemas(self):
+        schemas = self._load_generic_dataset("schema")
+        for schema in schemas:
+            sch = dict(schema.asAstropy())
+            info = {c = dd['base_Blendedness_abs_child_xx']
+        cc.description
+        cc.unit
+        cc.dtype
+        
+    def _load_generic_dataset(self, datatype):
+        datatypes = {}
+        for dataset in self.datasetTypes:
+            if not dataset.endswith('_%s' % datatype):
+                continue 
+            try:
+                datatypes[dataset] = self.butler.get(dataset)
+            except:
+                pass
+        return datatypes
+        
+    
+        
         

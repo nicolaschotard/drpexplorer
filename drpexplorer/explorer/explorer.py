@@ -35,7 +35,7 @@ def drp():
     # Other info, filter, skymap, etc.
     drp.addcontent("<h3>Other info</h3>")
     drp.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
-    drp.addcontent("<p> - <b>Sky map name</b>: %s</p>" % str(BUTLER.skymap_name))
+    drp.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
     
     return drp
 
@@ -59,6 +59,33 @@ def visits():
         visits.addcontent(make_list(filt, BUTLER.visits[filt]))
         
     return visits
+
+
+def configs():
+    """Overview of the current DRP content."""
+    configs = markup.page()
+    
+    # General info on the data repository
+    configs.addcontent("<h3>Paths to the repositories</h3>")
+    configs.select(id='select_config', multiple='multiple')
+    for subset in subsets:
+        configs.optgroup(ol.option([t.name for t in tgts],
+                                    value=[t.id for t in tgts]),
+                          label=subset.capitalize())
+    quantity.select.close()
+
+    drp.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
+    return drp
+
+
+def schema():
+    """Overview of the current DRP content."""
+    drp = markup.page()
+    
+    # General info on the data repository
+    drp.addcontent("<h3>Paths to the repositories</h3>")
+    drp.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
+    return drp
     
 
 def default_page():
@@ -127,6 +154,8 @@ def explorer():
                     'images': ['Images', images().__str__()],
                     'catalogs': ['Catalogs', default_page().__str__()],
                     'historic': ['Historic', default_page().__str__()],
+                    'configs': ['Configs', configs().__str__()],
+                    'schema': ['Schema', schema().__str__()],
                     'js9': ['JS9', js9().__str__()],
                     'help': ['Help!', help()]
                    }
