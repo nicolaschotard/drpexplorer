@@ -113,29 +113,33 @@ class Butler(object):
         return visits
     
     def _load_configs(self):
+        """Load configs for the main tasks."""
         configs = self._load_generic_dataset("config")
         return {cfg: configs[cfg].toDict() for cfg in configs}
         
     def _load_schemas(self):
+        """Load the schemas for all catalogs."""
         schemas = self._load_generic_dataset("schema")
         for schema in schemas:
-            sch = dict(schema.asAstropy())
-            info = {c = dd['base_Blendedness_abs_child_xx']
-        cc.description
-        cc.unit
-        cc.dtype
+            sch = schemas[schema].asAstropy()
+            schemas[schema] = {col: {'description': sch[col].description, 
+                                     'unit': sch[col].unit, 
+                                     'dtype': sch[col].dtype} 
+                               for col in sch.colnames}
+        return schemas
         
     def _load_generic_dataset(self, datatype):
+        """Load the schema or config datasets."""
+        if datatype not in ['config', 'schema']:
+            raise IOError("`datatype` must be either `config` or `schema`.")
         datatypes = {}
         for dataset in self.datasetTypes:
             if not dataset.endswith('_%s' % datatype):
                 continue 
-            try:
-                datatypes[dataset] = self.butler.get(dataset)
-            except:
-                pass
+            for dataId in [{}, self.dataIds['raw'][0], self.dataIds['deepCoadd_meas'][0]]:
+                try:
+                    datatypes[dataset] = self.butler.get(dataset, dataId=dataId)
+                    break
+                except:
+                    pass
         return datatypes
-        
-    
-        
-        

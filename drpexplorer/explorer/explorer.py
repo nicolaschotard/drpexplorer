@@ -10,43 +10,43 @@ BUTLER = processing.Butler()
 
 def home():
     """General info."""
-    overview = markup.page()
-    msg1 = 'Welcome to the LSST Data Release explorer'
-    overview.span(msg1, style='float:left; font-size:100%;')
-    return overview
+    page = markup.page()
+    page.span('Welcome to the LSST Data Release explorer', 
+              style='float:left; font-size:100%;')
+    return page
 
 
 def drp():
     """Overview of the current DRP content."""
-    drp = markup.page()
+    page = markup.page()
     
     # General info on the data repository
-    drp.addcontent("<h2>General info on the current DRP</h2>")
-    drp.addcontent("<h3>Paths to the repositories</h3>")
-    drp.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)
-    drp.addcontent("<p> - <b>Output</b>: %s</p>" % BUTLER.repo_output)
+    page.addcontent("<h2>General info on the current DRP</h2>")
+    page.addcontent("<h3>Paths to the repositories</h3>")
+    page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)
+    page.addcontent("<p> - <b>Output</b>: %s</p>" % BUTLER.repo_output)
     
     # Info on the mapper, camera, package
-    drp.addcontent("<h3>Mapper info</h3>")
-    drp.addcontent("<p> - <b>Package</b>: %s" % BUTLER.mapper_package)
-    drp.addcontent("<p> - <b>Camera</b>: %s" % BUTLER.mapper_camera)
-    drp.addcontent("<p> - <b>Name</b>: %s" % BUTLER.mapper_name)
+    page.addcontent("<h3>Mapper info</h3>")
+    page.addcontent("<p> - <b>Package</b>: %s" % BUTLER.mapper_package)
+    page.addcontent("<p> - <b>Camera</b>: %s" % BUTLER.mapper_camera)
+    page.addcontent("<p> - <b>Name</b>: %s" % BUTLER.mapper_name)
     
     # Other info, filter, skymap, etc.
-    drp.addcontent("<h3>Other info</h3>")
-    drp.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
-    drp.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
+    page.addcontent("<h3>Other info</h3>")
+    page.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
+    page.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
     
-    return drp
+    return page
 
 
 def visits():
     """List of visits."""
-    visits = markup.page()
-    visits.css(("nav ul{height:200px; width:18%;}",
-                "nav ul{overflow:hidden; overflow-y:scroll;}"
-               )
-              )
+    page = markup.page()
+    #page.css(("nav ul{height:200px; width:18%;}",
+    #          "nav ul{overflow:hidden; overflow-y:scroll;}"
+    #         )
+    #        )
     def make_list(header, items):
         html = "<header>%s</header>" % header
         html += "<nav><ul>"
@@ -56,36 +56,37 @@ def visits():
         return html
     
     for filt in BUTLER.visits:
-        visits.addcontent(make_list(filt, BUTLER.visits[filt]))
+        page.addcontent(make_list(filt, BUTLER.visits[filt]))
         
-    return visits
+    return page
 
 
 def configs():
     """Overview of the current DRP content."""
-    configs = markup.page()
+    page = markup.page()
     
     # General info on the data repository
-    configs.addcontent("<h3>Paths to the repositories</h3>")
-    configs.select(id='select_config', multiple='multiple')
+    page.addcontent("<h3>Paths to the repositories</h3>")
+    page.select(id='select_config', multiple='multiple')
+    subsets = ['a', 'b', 'c']
     for subset in subsets:
-        configs.optgroup(ol.option([t.name for t in tgts],
-                                    value=[t.id for t in tgts]),
-                          label=subset.capitalize())
-    quantity.select.close()
+        page.optgroup(markup.oneliner.option([t for t in ['d', 'e', 'f']],
+                                              value=[t for t in ['g', 'h', 'i']]),
+                      label=subset.capitalize())
+    page.select.close()
 
-    drp.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
-    return drp
+    page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
+    return page
 
 
 def schema():
     """Overview of the current DRP content."""
-    drp = markup.page()
+    page = markup.page()
     
     # General info on the data repository
-    drp.addcontent("<h3>Paths to the repositories</h3>")
-    drp.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
-    return drp
+    page.addcontent("<h3>Paths to the repositories</h3>")
+    page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
+    return page
     
 
 def default_page():
@@ -103,7 +104,7 @@ def js9preload(filename=None):
         os.mkdir("drpexplorer/explorer/static/links/")
     
     # Get the content of the JS9 window
-    js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
+    page = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
     
     # Name of the file to load, and create a link if it does not exist yet
     basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
@@ -111,9 +112,9 @@ def js9preload(filename=None):
         os.symlink(filename, basename)
     
     # Put this file name in the JS9 pre_load function
-    js9 = js9.replace("IMAGETOLOAD", "/" + basename) #"links/%s" % image_name)
+    page = page.replace("IMAGETOLOAD", "/" + basename) #"links/%s" % image_name)
     
-    return js9
+    return page
 
 
 def images():
@@ -125,9 +126,9 @@ def images():
 def js9():
     msg = "This JS9 window will use the browser's ability to read <b>local</b> files only"
     lines = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").readlines()
-    js9 = "".join([(line if not '<body' in line else '<body>') for line in lines])
-    js9 = js9.replace("INFO", msg)
-    return js9
+    page = "".join([(line if not '<body' in line else '<body>') for line in lines])
+    page = page.replace("INFO", msg)
+    return page
 
 
 def help():
