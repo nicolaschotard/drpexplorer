@@ -70,17 +70,22 @@ def default_page():
 
 
 def js9preload(filename=None):
-    print(filename)
+    """Pre-load (or load) an image in JS9."""
+    # Make sure the directory containing the symbolic links exists
     if not os.path.isdir("drpexplorer/explorer/static/links/"):
         os.mkdir("drpexplorer/explorer/static/links/")
+    
+    # Get the content of the JS9 window
     js9 = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
-    #js9 = js9.replace("drpexplorer/", "../drpexplorer/") #"links/%s" % image_name)
-    js9 = js9.replace("drpexplorer/", "/drpexplorer/drpexplorer/") #"links/%s" % image_name)    
-    #filename = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/02-singleFrameDriver/pardir/output/calexp/08BO01/SCL-2241_P2/2008-09-04/r/bkgd-1022360-22.fits"
+    
+    # Name of the file to load, and create a link if it does not exist yet
     basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
     if not os.path.exists(basename):
         os.symlink(filename, basename)
-    js9 = js9.replace("IMAGETOLOAD", "/drpepxlorer/explorer/static/links/%s" % basename) #"links/%s" % image_name)
+    
+    # Put this file name in the JS9 pre_load function
+    js9 = js9.replace("IMAGETOLOAD", "/" + basename) #"links/%s" % image_name)
+    
     return js9
 
 
