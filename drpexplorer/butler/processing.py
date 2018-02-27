@@ -4,13 +4,17 @@ import glob
 import lsst.daf.persistence as dafPersist
 
 
-#DRPPATH = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/output"
 DRPPATH = os.getenv('DRPPATH')
+
 
 class Butler(object):
     
     def __init__(self, drp_path=None):
         
+        # Make sure we have data to load
+        if drp_path is None and DRPPATH is None:
+            raise IOError("You must give a path a DRP output directory.)
+
         # Load the bulter
         self.drp_path = drp_path if drp_path is not None else DRPPATH
         self.butler = dafPersist.Butler(self.drp_path)
