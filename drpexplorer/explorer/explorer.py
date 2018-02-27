@@ -40,42 +40,50 @@ def drp():
     return page
 
 
+def make_list(header, items):
+    html = "<label for='visits_%s'>  %s  </label>" % (header, header)
+    html += "<select name='visits_%s' id='visits_%s'>" % (header, header)
+    for item in items:
+        html += "<option value=%s>%s</option>" % (item, item)
+    html += "</select>   "
+    html += """<script>
+    $( "#visits_%s" )
+    .selectmenu()
+    .selectmenu( "menuWidget" )
+    .addClass( "overflow" );
+    </script>""" % header
+    return html
+    
 def visits():
     """List of visits."""
     page = markup.page()
-    #page.css(("nav ul{height:200px; width:18%;}",
-    #          "nav ul{overflow:hidden; overflow-y:scroll;}"
-    #         )
-    #        )
-    def make_list(header, items):
-        html = "<header>%s</header>" % header
-        html += "<nav><ul>"
-        for item in items:
-            html += "<li>%s</li>" % item
-        html += "</ul></nav>"
-        return html
+    head = """<style>
+    label { display: block; }
+    select { width: 150px; }
+    .overflow { height: 200px; }
+    </style>
+    """
     
-    for filt in BUTLER.visits:
+    page.addcontent("List of all visits for all filter. Click on a visit to get more info.<p>")
+    for filt in sorted(BUTLER.visits):
         page.addcontent(make_list(filt, BUTLER.visits[filt]))
-        
+    
     return page
 
 
 def configs():
     """Overview of the current DRP content."""
     page = markup.page()
+    head = """<style>
+    label { display: block; }
+    select { width: 150px; }
+    .overflow { height: 200px; }
+    </style>
+    """
     
-    # General info on the data repository
-    page.addcontent("<h3>Paths to the repositories</h3>")
-    page.select(id='select_config', multiple='multiple')
-    subsets = ['a', 'b', 'c']
-    for subset in subsets:
-        page.optgroup(markup.oneliner.option([t for t in ['d', 'e', 'f']],
-                                              value=[t for t in ['g', 'h', 'i']]),
-                      label=subset.capitalize())
-    page.select.close()
-
-    page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
+    page.addcontent("List of all scripts configuration. Click on a config to get more info: ")
+    page.addcontent(make_list("Configs", BUTLER.configs))
+    
     return page
 
 
