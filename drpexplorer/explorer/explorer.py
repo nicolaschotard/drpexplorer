@@ -72,7 +72,7 @@ def visits():
 
 
 def configs():
-    """Overview of the current DRP content."""
+    """Configs info."""
     page = markup.page()
     head = """<style>
     label { display: block; }
@@ -80,20 +80,24 @@ def configs():
     .overflow { height: 200px; }
     </style>
     """
-    
     page.addcontent("List of all scripts configuration. Click on a config to get more info: ")
-    page.addcontent(make_list("Configs", BUTLER.configs))
+    page.addcontent(make_list("", BUTLER.configs))
     
     return page
 
 
 def schema():
-    """Overview of the current DRP content."""
+    """Schemas info."""
     page = markup.page()
+    head = """<style>
+    label { display: block; }
+    select { width: 150px; }
+    .overflow { height: 200px; }
+    </style>
+    """
+    page.addcontent("List of all scripts configuration. Click on a config to get more info: ")
+    page.addcontent(make_list("", BUTLER.schemas))
     
-    # General info on the data repository
-    page.addcontent("<h3>Paths to the repositories</h3>")
-    page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)    
     return page
     
 
@@ -107,22 +111,30 @@ def default_page():
 
 def js9preload(filename=None):
     """Pre-load (or load) an image in JS9."""
-    # Make sure the directory containing the symbolic links exists
-    if not os.path.isdir("drpexplorer/explorer/static/links/"):
-        os.mkdir("drpexplorer/explorer/static/links/")
+    msg = "For multi-extensions files, go to 'View -> Extensions' to select the extension to display."
     
+    basename = make_link(filename)
+        
     # Get the content of the JS9 window
     page = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").read()
     
+    # Put this file name in the JS9 pre_load function
+    page = page.replace("IMAGETOLOAD", "/" + basename) #"links/%s" % image_name)
+    page = page.replace("INFO", msg)
+    return page
+
+
+def make_link(filename=None):
+    if filename is None:
+        return None
+    # Make sure the directory containing the symbolic links exists
+    if not os.path.isdir("drpexplorer/explorer/static/links/"):
+        os.mkdir("drpexplorer/explorer/static/links/")
     # Name of the file to load, and create a link if it does not exist yet
     basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
     if not os.path.exists(basename):
         os.symlink(filename, basename)
-    
-    # Put this file name in the JS9 pre_load function
-    page = page.replace("IMAGETOLOAD", "/" + basename) #"links/%s" % image_name)
-    
-    return page
+    return basename
 
 
 def images():
@@ -132,7 +144,19 @@ def images():
 
 
 def js9():
-    msg = "This JS9 window will use the browser's ability to read <b>local</b> files only"
+    msg = "<h3>JS9 window utility (<a href=https://js9.si.edu/ target='_blanck'>website</a>, <a href=https://github.com/ericmandel/js9 target='_blanck'>github</a>)</h3>"
+    msg += "<p>Use <b>'File -> open local file...</b>' to load local files, or the following input box for file on the server.</p>"
+    msg += "<input type='text' id='filetoload' value='Absolute path to a file located on the running server' style='width: 500px'> "
+    msg += "<button onclick='loadmyfile()'>Load me</button>"
+    msg += """
+    <script>
+    function loadmyfile() {
+        var myfile = document.getElementById("filetoload").value;
+        $.getJSON(`/makelink/` + myfile, function (mylink) { JS9.Load(mylink['link'], {scale: 'log', zoom: 'to fit'}) });
+    }
+    </script>"""
+    
+    msg += ""
     lines = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").readlines()
     page = "".join([(line if not '<body' in line else '<body>') for line in lines])
     page = page.replace("INFO", msg)
@@ -153,20 +177,21 @@ def explorer():
     page = utils.init_page()
 
     # tabs
-    possibletabs = {'home': ['Home', home().__str__()],
-                    'drp': ['DRP', drp().__str__()],
-                    'visits': ['Visits', visits().__str__()],
-                    'skymap': ['Sky Map', default_page().__str__()],
-                    'astrometry': ['Astrometry', default_page().__str__()],
-                    'photometry': ['Photometry', default_page().__str__()],
-                    'refcat': ['Ref. Cat.', default_page().__str__()],
-                    'images': ['Images', images().__str__()],
-                    'catalogs': ['Catalogs', default_page().__str__()],
-                    'historic': ['Historic', default_page().__str__()],
-                    'configs': ['Configs', configs().__str__()],
-                    'schema': ['Schema', schema().__str__()],
-                    'js9': ['JS9', js9().__str__()],
-                    'help': ['Help!', help()]
+     
+    possibletabs = {'home': ['<font color="red">Home</font>', home().__str__()],
+                    'drp': ['<font color="green">DRP</font>', drp().__str__()],
+                    'visits': ['<font color="orange">Visits</font>', visits().__str__()],
+                    'skymap': ['<font color="red">Sky Map</font>', default_page().__str__()],
+                    'astrometry': ['<font color="red">Astrometry</font>', default_page().__str__()],
+                    'photometry': ['<font color="red">Photometry</font>', default_page().__str__()],
+                    'refcat': ['<font color="red">Ref. Cat.</font>', default_page().__str__()],
+                    'images': ['<font color="orange">Images</font>', images().__str__()],
+                    'catalogs': ['<font color="red">Catalogs</font>', default_page().__str__()],
+                    'historic': ['<font color="red">Historic</font>', default_page().__str__()],
+                    'configs': ['<font color="orange">Configs</font>', configs().__str__()],
+                    'schema': ['<font color="orange">Schema</font>', schema().__str__()],
+                    'js9': ['<font color="green">JS9</font>', js9().__str__()],
+                    'help': ['<font color="red">Help!</font>', help()]
                    }
 
     default = list(possibletabs.keys())

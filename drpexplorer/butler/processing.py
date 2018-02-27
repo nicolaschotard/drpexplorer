@@ -4,8 +4,8 @@ import glob
 import lsst.daf.persistence as dafPersist
 
 
-DRPPATH = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/output"
-#drp_path = os.getenv('DRPPATH')
+#DRPPATH = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/output"
+DRPPATH = os.getenv('DRPPATH')
 
 class Butler(object):
     

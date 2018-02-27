@@ -23,6 +23,8 @@ from drpexplorer.explorer import views, explorer
 urlpatterns = [path('admin/', admin.site.urls),                  # admin
                path('', views.explorer, name='DRP explorer')]   # explorer
 
+# JS9 related urls
 urlpatterns += [path('js9preload/', views.js9preload),
-                path('js9preload/<path:filename>', views.js9preload)
+                path('js9preload/<path:filename>', views.js9preload),
+                path('makelink/<path:filename>', views.makelink)
                ]

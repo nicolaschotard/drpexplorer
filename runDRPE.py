@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import sys
 from argparse import ArgumentParser
 from argparse import ArgumentDefaultsHelpFormatter
@@ -43,6 +44,8 @@ if __name__ == '__main__':
     r = parser.add_argument_group('General', 'Run options')
     r.add_argument('-p', '--port', default=1986,
                    help='Start server under localhost:port')
+    r.add_argument('--drp', default=None,
+                   help='Path to your DRP output repository. You can also use $DRPPATH ')
 
     h = parser.add_argument_group('Host', 'Distant host options')
     h.add_argument('-H', "--host", default=None,
@@ -55,6 +58,13 @@ if __name__ == '__main__':
     h.add_argument('-C', '--compression', action='store_true', default=False,
                    help='Activate ssh compression option (-C).')
     args = parser.parse_args()
+    
+    if args.drp is None and os.getenv('DRPPATH') is None:
+        raise IOError("You must give the path to your DRP output repository. See option --drp.")
+    elif os.getenv('DRPPATH') is not None:
+        args.drp = os.getenv('DRPPATH')
+    else:
+        os.setenv('DRPATH', args.drp)
 
     # Run from a distant host
     if args.host is not None:
@@ -77,7 +87,7 @@ if __name__ == '__main__':
         cmd += "setup lsst_distrib \n"
             
         # Launch the explorer
-        cmd += './runDRPE.py &\n'
+        cmd += './runDRPE.py --drp %s &\n' % args.drp
 
         # Wait for it to be launched
         cmd += "export servers=\`netstat -lnt | grep 127.0.0.1:%i\`\n" % args.port
