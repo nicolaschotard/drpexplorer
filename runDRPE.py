@@ -61,10 +61,10 @@ if __name__ == '__main__':
     
     if args.drp is None and os.getenv('DRPPATH') is None:
         raise IOError("You must give the path to your DRP output repository. See option --drp.")
-    elif os.getenv('DRPPATH') is not None:
+    if os.getenv('DRPPATH') is not None and args.drp is None:
         args.drp = os.getenv('DRPPATH')
-    else:
-        os.putenv('DRPPATH', args.drp)
+    if os.getenv('DRPPATH') is None:
+        os.environ['DRPPATH'] = args.drp
 
     # Run from a distant host
     if args.host is not None:
