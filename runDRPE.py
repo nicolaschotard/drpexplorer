@@ -64,7 +64,7 @@ if __name__ == '__main__':
     elif os.getenv('DRPPATH') is not None:
         args.drp = os.getenv('DRPPATH')
     else:
-        os.setenv('DRPATH', args.drp)
+        os.putenv('DRPATH', args.drp)
 
     # Run from a distant host
     if args.host is not None:
