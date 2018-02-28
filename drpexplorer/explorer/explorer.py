@@ -46,7 +46,7 @@ def make_list(key, header, items, style='', onclick=''):  # width=180):
     html += "<select name='list_%s' id='visits_%s' style='%s'>" % (key, key, style)
     html += "<option disabled selected>Please pick one</option>"
     for item in sorted(items):
-        oc = onclick.replace('theitem', str(item))
+        oc = onclick.replace('theitem', "'%s'" % str(item))
         html += "<option value=%s onclick=%s>%s</option>" % (item, oc, item)
     html += "</select>"
     html += "</div>"
@@ -55,36 +55,28 @@ def make_list(key, header, items, style='', onclick=''):  # width=180):
 def visits():
     """List of visits."""
     page = markup.page()
-    style = 'width:180px;"'
-    onclick = "'getvisitinfo(theitem)'"
+    style = 'width:180px;'
+    onclick = '"getvisitinfo(theitem)"'
     page.addcontent("<h3>List of all visits for all filter</h3> Click on one visit to get more info.<p>")
     for filt in sorted(BUTLER.visits):
         header = "%i visits for <b>%s</b> filter" % (len(BUTLER.visits[filt]), filt)
         page.addcontent(make_list(filt, header, BUTLER.visits[filt], style=style, onclick=onclick))
-    for filt in sorted(BUTLER.visits):
-        html = """<script>
-    $( "#list_%s" )
-    .selectmenu()
-    .selectmenu( "menuWidget" )
-    .addClass( "overflow" );
-    </script>""" % filt
-        page.addcontent(html)
-    page.addcontent("<div id='VisitInfodDiv'></div>")
+    page.addcontent("""<div style="clear:left" id="VisitInfoDiv"></div>""")
     return page
 
 
 def get_visit_info(visit):
-    return 'toto' 
+    return "<br/>Selected visit: %s" % visit
 
 
 def configs():
     """Configs info."""
     page = markup.page()
     style = "width=300px;"
+    onclick = '"getconfiginfo(theitem)"'
     page.addcontent("<h3>Scripts configurations</h3> Click on a configuration to get more info.<p>")
-    page.addcontent(make_list("config", "", BUTLER.configs, style=style))
-    page.addcontent("<button type='submit' onclick='getconfiginfo(hoho)'>Show config</button>")
-    page.addcontent("<div id='ConfigInfodDiv'></div>")
+    page.addcontent(make_list("config", "", BUTLER.configs, style=style, onclick=onclick))
+    page.addcontent('<div style="clear:left" id="ConfigInfoDiv"></div>')
     return page
 
 
@@ -92,8 +84,10 @@ def schema():
     """Schemas info."""
     page = markup.page()
     style = "width=300px;"
+    onclick = '"getschemainfo(theitem)"'
     page.addcontent("<h3>Catalogs schema</h3> Click on a schema to get more info.<p>")
-    page.addcontent(make_list("schema", "", BUTLER.schemas, style=style))  
+    page.addcontent(make_list("schema", "", BUTLER.schemas, style=style, onclick=onclick))
+    page.addcontent('<div style="clear:left" id="SchemaInfoDiv"></div>')
     return page
 
 

@@ -1,14 +1,18 @@
 function getvisitinfo(thevisit) {
-    $.getJSON(`/visit/` + thevisit, function (visinfo) { 
+    $.get(`/visit/` + thevisit, function (visinfo) {
         var mydiv = document.getElementById("VisitInfoDiv");
-        mydiv.append(visitinfo);
-    })
+        mydiv.innerHTML = visinfo;
+    });
 }
-              
-function getconfiginfo(thevisit) {
-    $.getJSON(`/visit/` + thevisit, function (visinfo) { 
+function getconfiginfo(theconfig) {
+    $.get(`/config/` + theconfig, function (cfginfo) { 
         var mydiv = document.getElementById("ConfigInfoDiv");
-        mydiv.append(visitinfo);
-    })
+        mydiv.innerHTML = cfginfo;
+    });
 }
-              
+function getschemainfo(theschema) {
+    $.get(`/schema/` + theschema, function (schinfo) { 
+        var mydiv = document.getElementById("SchemaInfoDiv");
+        mydiv.innerHTML = schinfo;
+    });
+}
