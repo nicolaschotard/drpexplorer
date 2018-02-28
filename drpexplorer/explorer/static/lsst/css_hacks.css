@@ -7,7 +7,15 @@ body, html {
     /*overflow-y: scroll;*/
 }
 
-ul { margin-left:10px; padding-left:10px; }
+ul, li{
+    margin:0;
+    padding:0 0 0 10px;     
+}
+
+.column{
+    float: left;
+    margin: 0 10px 0 0;
+}
 
 table.pretty {
     margin: 1em 1em 1em 1em;

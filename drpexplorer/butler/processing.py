@@ -13,7 +13,7 @@ class Butler(object):
         
         # Make sure we have data to load
         if drp_path is None and DRPPATH is None:
-            raise IOError("You must give a path a DRP output directory.)
+            raise IOError("You must give a path a DRP output directory.")
 
         # Load the bulter
         self.drp_path = drp_path if drp_path is not None else DRPPATH

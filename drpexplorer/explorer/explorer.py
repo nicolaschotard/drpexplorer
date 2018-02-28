@@ -21,37 +21,33 @@ def drp():
     page = markup.page()
     
     # General info on the data repository
-    page.addcontent("<h2>General info on the current DRP</h2>")
-    page.addcontent("<h3>Paths to the repositories</h3>")
+    page.addcontent("<h3>General info on the current DRP</h3>")
+    page.addcontent("<h4>Paths to the repositories</h4>")
     page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)
     page.addcontent("<p> - <b>Output</b>: %s</p>" % BUTLER.repo_output)
     
     # Info on the mapper, camera, package
-    page.addcontent("<h3>Mapper info</h3>")
+    page.addcontent("<h4>Mapper info<h4>")
     page.addcontent("<p> - <b>Package</b>: %s" % BUTLER.mapper_package)
     page.addcontent("<p> - <b>Camera</b>: %s" % BUTLER.mapper_camera)
     page.addcontent("<p> - <b>Name</b>: %s" % BUTLER.mapper_name)
     
     # Other info, filter, skymap, etc.
-    page.addcontent("<h3>Other info</h3>")
+    page.addcontent("<h4>Other info</h4>")
     page.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
     page.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
     
     return page
 
 
-def make_list(header, items):
-    html = "<label for='visits_%s'>  %s  </label>" % (header, header)
-    html += "<select name='visits_%s' id='visits_%s'>" % (header, header)
+def make_list(key, header, items, width=200):
+    html = "<div class='column'>"
+    html += "<label for='list_%s'>%s</label>" % (key, header)
+    html += "<select name='list_%s' id='visits_%s' style='width: %ipx'>" % (key, key, width)
     for item in items:
         html += "<option value=%s>%s</option>" % (item, item)
-    html += "</select>   "
-    html += """<script>
-    $( "#visits_%s" )
-    .selectmenu()
-    .selectmenu( "menuWidget" )
-    .addClass( "overflow" );
-    </script>""" % header
+    html += "</select>"
+    html += "</div>"
     return html
     
 def visits():
@@ -59,14 +55,23 @@ def visits():
     page = markup.page()
     head = """<style>
     label { display: block; }
-    select { width: 150px; }
-    .overflow { height: 200px; }
+    .overflow { height: 100px; }
     </style>
     """
-    
-    page.addcontent("List of all visits for all filter. Click on a visit to get more info.<p>")
+    page.addheader(head)
+    page.addcontent("<h3>List of all visits for all filter</h3> Click on one visit to get more info.<p>")
     for filt in sorted(BUTLER.visits):
-        page.addcontent(make_list(filt, BUTLER.visits[filt]))
+        page.addcontent(make_list(filt, 
+                                  "%i visits for <b>%s</b> filter" % (len(BUTLER.visits[filt]), filt),
+                                  BUTLER.visits[filt]))
+    for filt in sorted(BUTLER.visits):
+        html = """<script>
+    $( "#list_%s" )
+    .selectmenu()
+    .selectmenu( "menuWidget" )
+    .addClass( "overflow" );
+    </script>""" % filt
+        page.addcontent(html)
     
     return page
 
@@ -76,12 +81,12 @@ def configs():
     page = markup.page()
     head = """<style>
     label { display: block; }
-    select { width: 150px; }
     .overflow { height: 200px; }
     </style>
     """
-    page.addcontent("List of all scripts configuration. Click on a config to get more info: ")
-    page.addcontent(make_list("", BUTLER.configs))
+    page.addheader(head)
+    page.addcontent("<h3>Scripts configurations</h3> Click on a configuration to get more info.<p>")
+    page.addcontent(make_list("config", "", BUTLER.configs, width=300))
     
     return page
 
@@ -91,12 +96,12 @@ def schema():
     page = markup.page()
     head = """<style>
     label { display: block; }
-    select { width: 150px; }
     .overflow { height: 200px; }
     </style>
     """
-    page.addcontent("List of all scripts configuration. Click on a config to get more info: ")
-    page.addcontent(make_list("", BUTLER.schemas))
+    page.addheader(head)
+    page.addcontent("<h3>Catalogs schema</h3> Click on a schema to get more info.<p>")
+    page.addcontent(make_list("schema", "", BUTLER.schemas, width=300))
     
     return page
     
@@ -145,8 +150,8 @@ def images():
 
 def js9():
     msg = "<h3>JS9 window utility (<a href=https://js9.si.edu/ target='_blanck'>website</a>, <a href=https://github.com/ericmandel/js9 target='_blanck'>github</a>)</h3>"
-    msg += "<p>Use <b>'File -> open local file...</b>' to load local files, or the following input box for file on the server.</p>"
-    msg += "<input type='text' id='filetoload' value='Absolute path to a file located on the running server' style='width: 500px'> "
+    msg += "<p>Use <b>File -> open local file...</b> to load a local file, or the following input box for a file on the server.</p>"
+    msg += "<input type='text' id='filetoload' value='Absolute path of a file located on the running server.' style='width: 500px'> "
     msg += "<button onclick='loadmyfile()'>Load me</button>"
     msg += """
     <script>
