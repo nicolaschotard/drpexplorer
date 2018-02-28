@@ -28,3 +28,14 @@ urlpatterns += [path('js9preload/', views.js9preload),
                 path('js9preload/<path:filename>', views.js9preload),
                 path('makelink/<path:filename>', views.makelink)
                ]
+
+# Schemas and configurations
+urlpatterns += [path('schema/', views.getschema),
+                path('config/', views.getconfig),
+                path('schema/<str:schema>', views.getschema),
+                path('config/<str:config>', views.getconfig)
+               ]
+
+# Visit info
+urlpatterns += [path('visit/', views.getvisitinfo),
+                path('visit/<str:visit>', views.getvisitinfo)]

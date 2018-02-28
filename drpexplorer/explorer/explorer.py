@@ -40,12 +40,14 @@ def drp():
     return page
 
 
-def make_list(key, header, items, width=200):
+def make_list(key, header, items, style='', onclick=''):  # width=180):
     html = "<div class='column'>"
     html += "<label for='list_%s'>%s</label>" % (key, header)
-    html += "<select name='list_%s' id='visits_%s' style='width: %ipx'>" % (key, key, width)
-    for item in items:
-        html += "<option value=%s>%s</option>" % (item, item)
+    html += "<select name='list_%s' id='visits_%s' style='%s'>" % (key, key, style)
+    html += "<option disabled selected>Please pick one</option>"
+    for item in sorted(items):
+        oc = onclick.replace('theitem', str(item))
+        html += "<option value=%s onclick=%s>%s</option>" % (item, oc, item)
     html += "</select>"
     html += "</div>"
     return html
@@ -53,17 +55,12 @@ def make_list(key, header, items, width=200):
 def visits():
     """List of visits."""
     page = markup.page()
-    head = """<style>
-    label { display: block; }
-    .overflow { height: 100px; }
-    </style>
-    """
-    page.addheader(head)
+    style = 'width:180px;"'
+    onclick = "'getvisitinfo(theitem)'"
     page.addcontent("<h3>List of all visits for all filter</h3> Click on one visit to get more info.<p>")
     for filt in sorted(BUTLER.visits):
-        page.addcontent(make_list(filt, 
-                                  "%i visits for <b>%s</b> filter" % (len(BUTLER.visits[filt]), filt),
-                                  BUTLER.visits[filt]))
+        header = "%i visits for <b>%s</b> filter" % (len(BUTLER.visits[filt]), filt)
+        page.addcontent(make_list(filt, header, BUTLER.visits[filt], style=style, onclick=onclick))
     for filt in sorted(BUTLER.visits):
         html = """<script>
     $( "#list_%s" )
@@ -72,38 +69,67 @@ def visits():
     .addClass( "overflow" );
     </script>""" % filt
         page.addcontent(html)
-    
+    page.addcontent("<div id='VisitInfodDiv'></div>")
     return page
+
+
+def get_visit_info(visit):
+    return 'toto' 
 
 
 def configs():
     """Configs info."""
     page = markup.page()
-    head = """<style>
-    label { display: block; }
-    .overflow { height: 200px; }
-    </style>
-    """
-    page.addheader(head)
+    style = "width=300px;"
     page.addcontent("<h3>Scripts configurations</h3> Click on a configuration to get more info.<p>")
-    page.addcontent(make_list("config", "", BUTLER.configs, width=300))
-    
+    page.addcontent(make_list("config", "", BUTLER.configs, style=style))
+    page.addcontent("<button type='submit' onclick='getconfiginfo(hoho)'>Show config</button>")
+    page.addcontent("<div id='ConfigInfodDiv'></div>")
     return page
 
 
 def schema():
     """Schemas info."""
     page = markup.page()
-    head = """<style>
-    label { display: block; }
-    .overflow { height: 200px; }
-    </style>
-    """
-    page.addheader(head)
+    style = "width=300px;"
     page.addcontent("<h3>Catalogs schema</h3> Click on a schema to get more info.<p>")
-    page.addcontent(make_list("schema", "", BUTLER.schemas, width=300))
-    
+    page.addcontent(make_list("schema", "", BUTLER.schemas, style=style))  
     return page
+
+
+def get_schema(schema):
+    if schema not in BUTLER.schemas:
+        page = markup.page()
+        page.addcontent("ERROR: No data found for <b>%s</b>. Possible schemas are:<p>" % schema)
+        page.addcontent("<ul>%s</ul>" % "".join(["<li>%s</li>" % sch for sch in BUTLER.schemas]))
+        return page
+    else:
+        return make_menu_from_dict(BUTLER.schemas[schema])
+    
+
+def get_config(config):
+    if config not in BUTLER.configs:
+        page = markup.page()
+        page.addcontent("ERROR: No data found for <b>%s</b>. Possible configs are:<p>" % config)
+        page.addcontent("<ul>%s</ul>" % "".join(["<li>%s</li>" % cfg for cfg in BUTLER.configs]))
+        return page
+    else:
+        return make_menu_from_dict(BUTLER.configs[config])
+    
+    
+def make_menu_from_dict(dic):
+    html = "<ul>"
+    for key in sorted(list(dic.keys())):
+        if isinstance(dic[key], dict):
+            html += "<li> %s" % key
+            html += make_menu_from_dict(dic[key])
+            html += "</li>"
+        elif isinstance(dic[key], list):
+            html += "<li>%s: [%s]</li>" % (key, ",".join(str(v) for v in dic[key]))
+        else:
+            html += "<li>%s: %s</li>" % (key, str(dic[key]))
+    html += "</ul>"
+    return html
     
 
 def default_page():

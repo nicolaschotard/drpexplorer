@@ -21,7 +21,9 @@ def init_page():
                  )
 
     # lsst JS scripts
-    script.extend([staticpath + 'lsst/explorer.js'])
+    script.extend([staticpath + 'lsst/explorer.js',
+                   staticpath + 'lsst/visits.js'
+                  ])
     
     # CSSs
     theme = 'base'
