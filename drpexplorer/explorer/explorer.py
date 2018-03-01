@@ -35,7 +35,8 @@ def drp():
     # Other info, filter, skymap, etc.
     page.addcontent("<h4>Other info</h4>")
     page.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
-    page.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
+    if hasattr(BUTLER, 'skymap'):
+        page.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
     
     return page
 
@@ -44,7 +45,10 @@ def make_list(key, header, items, style='', onclick=''):  # width=180):
     html = "<div class='column'>"
     html += "<label for='list_%s'>%s</label>" % (key, header)
     html += "<select name='list_%s' id='visits_%s' style='%s'>" % (key, key, style)
-    html += "<option disabled selected>Please pick one</option>"
+    if len(items):
+        html += "<option disabled selected>Please pick one</option>"
+    else:
+        html += "<option disabled selected>This list is empty</option>"
     for item in sorted(items):
         oc = onclick.replace('theitem', "'%s'" % str(item))
         html += "<option value=%s onclick=%s>%s</option>" % (item, oc, item)
@@ -66,7 +70,18 @@ def visits():
 
 
 def get_visit_info(visit):
-    return "<br/>Selected visit: %s" % visit
+    print(BUTLER.dataIds['raw'][0])
+    #print(visit)
+    dataids = [dataid for dataid in BUTLER.dataIds['raw'] if visit == str(dataid['visit'])]
+    #print(dataids[0])
+    #print(BUTLER.get_file('raw', dataids[0]))
+    myimage = BUTLER.get_file('raw', dataids[0])[0]
+    html = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_viewer.txt"), "r").read()
+    html = html.replace("MYIMAGE", myimage)
+    return html
+    #html = "<br/>Selected visit: %s" % visit
+    #html += "Raw data file: %s" % myimage
+    #return html
 
 
 def configs():
@@ -163,8 +178,9 @@ def make_link(filename=None):
 
 
 def images():
+    myimage = "/sps/lsst/data/clusters/workflow/weeklies/work/201749004/02-singleFrameDriver/pardir/output/calexp/08BO01/SCL-2241_P2/2008-09-04/r/bkgd-1022360-22.fits"
     html = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_viewer.txt"), "r").read()
-    html = html.replace("JS9CONTENT", "toto")
+    html = html.replace("MYIMAGE", myimage)
     return html
 
 

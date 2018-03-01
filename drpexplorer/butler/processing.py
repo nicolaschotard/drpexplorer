@@ -1,6 +1,7 @@
 import os
 import re
 import glob
+import numpy
 import lsst.daf.persistence as dafPersist
 
 
@@ -22,27 +23,30 @@ class Butler(object):
         self.repoData = self.butler._repos.outputs()[0]
         
         # Load some basic info on the current DRP
-        self.repo_input = self._get_repo("input")
-        self.repo_output = self._get_repo("output")
+        self.repo_input = self._get_repo("input")    # repo containing the rwe data after ingestion
+        self.repo_output = self._get_repo("output")  # repo containing the processed data
 
         # Load some dataids
         self.datasetTypes = self._get_datasetTypes()
-        self.dataIds = {'raw': self.get_dataIds('raw'),
-                        'deepCoadd_meas': self.get_dataIds('deepCoadd_meas'),
-                        'deepCoadd_forced_src': self.get_dataIds('deepCoadd_forced_src')
-                       }
+        self.datasetTypes_filename = self._get_datasetTypes_withfiles()
+        self.dataIds = {}
+        for dataset in ['raw', 'forced_src', 'deepCoadd_meas', 'deepCoadd_forced_src']:
+            dataids = self.get_dataIds(dataset)
+            if len(dataids):
+                self.dataIds[dataset] = dataids
                      
         # Load filter and visits
         self.filters = self.get_filter_list()
         self.visits = self.get_visit_list()
         
-        # Skymap
-        self.skymap = self.butler.get("deepCoadd_skyMap")
-        self.skymap_name = self.skymap.__class__.__name__
-        self.skymap_doc = self.skymap.__doc__
-        self.skymap_config = self.skymap.config.toDict()
-        self.skymap_numtracts = self.skymap._numTracts
-        self.skymap_numpatches = self.skymap[0].getNumPatches()
+        # Skymap if any
+        if self.butler._locate('deepCoadd_skyMap', dafPersist.DataId({}), write=False) is not None:
+            self.skymap = self.butler.get("deepCoadd_skyMap")
+            self.skymap_name = self.skymap.__class__.__name__
+            self.skymap_doc = self.skymap.__doc__
+            self.skymap_config = self.skymap.config.toDict()
+            self.skymap_numtracts = self.skymap._numTracts
+            self.skymap_numpatches = self.skymap[0].getNumPatches()
         
         # Mapper info
         self.mapper_name = self.mapper.__name__
@@ -59,16 +63,27 @@ class Butler(object):
             
     def _get_repo(self, repo):
         """Get the full path of the input/output repository."""
+        has_parent = bool(len(self.repoData.getParentRepoDatas()))
         if repo == 'output':
-            return self.repoData.cfgRoot               # output path (drp_path)
+            # The given repo is an output one if it has a parent, otherwise, it should be an input one
+            return self.repoData.cfgRoot if has_parent else 'No output directory found'
         elif repo == 'input':
-            parentRepoData = self.repoData.getParentRepoDatas()[0]  # input
-            return os.path.realpath(parentRepoData.cfgRoot)                # input path -> ../input in this case
+            # the parent directory is the one containing the raw data (after ingestion)
+            if has_parent:
+                parentRepoData = self.repoData.getParentRepoDatas()[0]         
+                return os.path.realpath(parentRepoData.cfgRoot)                # input path -> ../input in this case
+            else:
+                return self.repoData.cfgRoot
         else:
             raise IOError("Wrong repo name. You should not be calling this internal method anyway.")
             
     def _get_datasetTypes(self):
         return sorted(self.repoData.repo._mapper.mappings.keys())
+    
+    def _get_datasetTypes_withfiles(self):
+        mappables = [m for m in dir(self.repoData.repo._mapper) if m.startswith('map_')]
+        withfile = [m.replace('map_', '') for m in mappables if m.endswith('_filename')]
+        return sorted(withfile)
     
 #    def _get_visit_datasetTypes(self):
 #        vds = []
@@ -88,6 +103,9 @@ class Butler(object):
     def get_dataIds(self, datasetType):
         """Get all available data id for a given dataType."""
         keys = self.get_catIdKeys(datasetType)
+        # 'tract' is present in the keys for the forced_src cat, but should not be
+        if datasetType == 'forced_src':
+            del keys['tract']
         try:
             metadata = self.butler.queryMetadata(datasetType, format=sorted(keys.keys()))
         except:
@@ -96,14 +114,14 @@ class Butler(object):
             return [dict(zip(sorted(keys.keys()), list(v) if not isinstance(v, list) else v)) for v in metadata]
         else:
             if datasetType not in self.repoData.repo._mapper.datasets:
-                raise Error("This datasetType is not mappable")
+                return []
             template = self.repoData.repo._mapper.datasets[datasetType]._template
             path = os.path.join(self.repoData.cfgRoot, os.path.dirname(template))
             basepath = "/".join([p for p in path.split('/') if not p.startswith('%')]) + "/"
-            keys = [p[2:-2] for p in path.split('/') if p.startswith('%')]
+            keys = self.butler.getKeys(datasetType)
             gpath = "/".join([p if not p.startswith('%') else '*' for p in path.split('/')])
             paths = [p for p in glob.glob(gpath) if 'merged' not in p]
-            return [{k: v for k, v in zip(keys, p.split(basepath)[1].split('/'))} for p in paths]
+            return [{k: keys[k](v) for k, v in zip(keys, p.split(basepath)[1].split('/'))} for p in paths]
 
     def get_filter_list(self):
         """Get the list of filters."""
@@ -140,10 +158,57 @@ class Butler(object):
         for dataset in self.datasetTypes:
             if not dataset.endswith('_%s' % datatype):
                 continue 
-            for dataId in [{}, self.dataIds['raw'][0], self.dataIds['deepCoadd_meas'][0]]:
+            for dataId in ([{}] + [self.dataIds[key][0] for key in self.dataIds]):
                 try:
                     datatypes[dataset] = self.butler.get(dataset, dataId=dataId)
                     break
                 except:
                     pass
         return datatypes
+    
+    def get_file(self, datatype, dataid):
+        try:
+            cfiles = self.butler.get('%s_filename' % datatype, dataId=dataid)
+            print(cfiles)
+            for i, cfile in enumerate(cfiles):
+                if self.repo_output in cfile and not os.path.exists(cfile):
+                    cfiles[i] = cfile.replace(self.repo_output, self.repo_input)
+            print(cfiles)
+            return cfiles
+        except:
+            return []
+    
+    def get_files(self, datatype, filt=None, visit=None, tract=None, patch=None):
+        dataids = self.get_dataid_from_dataset(datatype)
+        files = numpy.concatenate([self.get_file(datatype, dataid) for dataid in dataids])
+        return files
+
+    def get_dataid_from_dataset(self, datatype, test=False):
+        try:
+            keys = self.butler.getKeys(datatype)
+        except:
+            keys = {}
+        if not len(keys):
+            return [{}]
+        elif 'visit' in keys and 'tract' in keys:
+            key = 'forced_src'
+            dataIds = [self.dataIds[key][0]] if test else self.dataIds[key]
+        elif 'visit' in keys:
+            key = 'raw'
+            dataIds = [self.dataIds[key][0]] if test else self.dataIds[key]
+        elif 'tract' in keys:
+            key = 'deepCoadd_meas'
+            dataIds = [self.dataIds[key][0]] if test else self.dataIds[key]
+        else:
+            dataIds = self.get_dataIds(datatype)
+            if not len(dataIds):
+                dataIds = [{}]
+        return [{k: dataid[k] for k in dataid if k in keys} for dataid in dataIds]
+            
+    def _has_file(self, datatype):
+        return bool(len(self.get_file(datatype, self.get_dataid_from_dataset(datatype, test=True)[0])))
+    
+    def _type_file(self, datatype):
+        return self.get_file(datatype, self.get_dataid_from_dataset(datatype, test=True)[0])
+    
+        

@@ -55,6 +55,8 @@ if __name__ == '__main__':
                    "figure it out from you ~/.ssh/config or will use your local user name.")
     h.add_argument('-r', "--repo", default=None,
                    help="Path to your 'drpexplorer' repository.")
+    h.add_argument("-vstack", default='w_2017_49',
+                   help="Version of the DM stack to set up.")    
     h.add_argument('-C', '--compression', action='store_true', default=False,
                    help='Activate ssh compression option (-C).')
     args = parser.parse_args()
@@ -83,7 +85,7 @@ if __name__ == '__main__':
         cmd += "cd %s\n" % args.repo
 
         # Setup a version of the LSST stack
-        cmd += "source /sps/lsst/software/lsst_distrib/w_2017_49/loadLSST.bash \n"
+        cmd += "source /sps/lsst/software/lsst_distrib/%s/loadLSST.bash \n" % args.vstack
         cmd += "setup lsst_distrib \n"
             
         # Launch the explorer

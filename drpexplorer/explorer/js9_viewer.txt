@@ -5,9 +5,7 @@
   </head>
   <body>
     <a href=""  
-       onclick="window.open('js9preload//sps/lsst/data/clusters/workflow/weeklies/work/201749004/02-singleFrameDriver/pardir/output/calexp/08BO01/SCL-2241_P2/2008-09-04/r/bkgd-1022360-22.fits', 
-                                         'newwindow', 
-                                         'width=800,height=800'); 
+       onclick="window.open('js9preload/MYIMAGE', 'newwindow', 'width=800,height=800'); 
                 return false;"
      >Click me</a>
   </body>   
