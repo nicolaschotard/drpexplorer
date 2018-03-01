@@ -70,11 +70,7 @@ def visits():
 
 
 def get_visit_info(visit):
-    print(BUTLER.dataIds['raw'][0])
-    #print(visit)
     dataids = [dataid for dataid in BUTLER.dataIds['raw'] if visit == str(dataid['visit'])]
-    #print(dataids[0])
-    #print(BUTLER.get_file('raw', dataids[0]))
     myimage = BUTLER.get_file('raw', dataids[0])[0]
     html = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_viewer.txt"), "r").read()
     html = html.replace("MYIMAGE", myimage)
@@ -172,9 +168,16 @@ def make_link(filename=None):
         os.mkdir("drpexplorer/explorer/static/links/")
     # Name of the file to load, and create a link if it does not exist yet
     basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
+    # Does it have an extension?  [1]
+    baseext = basename.split('[')
+    if len(baseext) > 1:
+        basename = baseext[0]
+        extension = '[' + baseext[1]
+    else:
+        extension = ''
     if not os.path.exists(basename):
         os.symlink(filename, basename)
-    return basename
+    return basename+extension
 
 
 def images():

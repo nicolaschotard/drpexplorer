@@ -169,11 +169,9 @@ class Butler(object):
     def get_file(self, datatype, dataid):
         try:
             cfiles = self.butler.get('%s_filename' % datatype, dataId=dataid)
-            print(cfiles)
             for i, cfile in enumerate(cfiles):
                 if self.repo_output in cfile and not os.path.exists(cfile):
                     cfiles[i] = cfile.replace(self.repo_output, self.repo_input)
-            print(cfiles)
             return cfiles
         except:
             return []
