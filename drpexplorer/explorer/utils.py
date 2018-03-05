@@ -25,15 +25,22 @@ def init_page():
                    staticpath + 'lsst/visits.js'
                   ])
     
+    # JS9
+    script.extend([staticpath + "js9/js9prefs.js",
+                   staticpath + "js9/js9support.min.js",
+                   staticpath + "js9/js9.js",
+                   staticpath + "js9/js9plugins.js"])
+    
     # CSSs
     theme = 'base'
-    #theme = 'redmond'
-    #theme = 'start'
     themes = staticpath + 'jquery/ui/jquery-ui-themes-1.12.1/themes'
     css = (staticpath + 'lsst/css_hacks.css',
            themes + '/%s/jquery-ui.min.css' % theme,
            staticpath + 'jquery/ui/css/multi-select.css',
-           staticpath + 'jquery/ui/css/jquery.ui.selectmenu.css'
+           staticpath + 'jquery/ui/css/jquery.ui.selectmenu.css',
+           # JS9
+           "/drpexplorer/explorer/static/js9/js9support.css",
+           "/drpexplorer/explorer/static/js9/js9.css"
           )
 
     # Web page intitialization

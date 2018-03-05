@@ -16,3 +16,7 @@ function getschemainfo(theschema) {
         mydiv.innerHTML = schinfo;
     });
 }
+function loadmyfile() {
+    var myfile = document.getElementById("filetoload").value;
+    $.getJSON(`/makelink/` + myfile, function (mylink) { JS9.Load(mylink['link'], {scale: 'log', zoom: 'to fit'}) });
+}

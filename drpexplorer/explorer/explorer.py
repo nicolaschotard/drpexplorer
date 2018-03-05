@@ -47,9 +47,9 @@ def make_list(key, header, items, style='', onclick=''):  # width=180):
     html += "<label for='list_%s'>%s</label>" % (key, header)
     html += "<select name='list_%s' id='visits_%s' style='%s'>" % (key, key, style)
     if len(items):
-        html += "<option disabled selected>Please pick one</option>"
+        html += "<option selected>Please pick one</option>"
     else:
-        html += "<option disabled selected>This list is empty</option>"
+        html += "<option selected>This list is empty</option>"
     for item in sorted(items):
         oc = onclick.replace('theitem', "'%s'" % str(item))
         html += "<option value=%s onclick=%s>%s</option>" % (item, oc, item)
@@ -71,14 +71,33 @@ def visits():
 
 
 def get_visit_info(visit):
+    
+    # Get file and show them as lists
+    datatypes = ['raw', 'calexp']
     dataids = [dataid for dataid in BUTLER.dataIds['raw'] if visit == str(dataid['visit'])]
-    images = numpy.concatenate([BUTLER.get_file('raw', dataid) for dataid in dataids])
-    html = "<br/><p>Selected visit: %s</p>" % visit
-    html += "<p>Raw data files:</p>"
-    for image in images:
-        html += """<p><a href="" onclick="window.open('js9preload/%s', 'newwindow', 'width=800,height=800'); 
-                         return false;"
-                      >%s</a></p>""" % (image, image)
+    html = "<br/><p><b>Selected visit: %s</b></p>" % visit
+
+    for datatype in datatypes:
+        images = list(set(numpy.concatenate([BUTLER.get_file(datatype, dataid) for dataid in dataids])))
+
+        # Nice list
+        key, header, style = datatype, '%s data files (%i)' % (datatype.title(), len(images)), 'width:350px;'
+        html += "<div class='column'>"
+        html += "<label for='list_%s'>%s</label>" % (key, header)
+        html += "<select name='list_%s' id='visits_%s' style='%s'>" % (key, key, style)
+        if len(images):
+            html += "<option disabled selected>Please pick one</option>"
+        else:
+            html += "<option disabled selected>This list is empty</option>"
+        for image in sorted(images):
+            onclick = "window.open('js9preload/%s', 'newwindow', 'width=800,height=800'); return false;" % image #(image, image)
+            if datatype == 'raw':
+                html += '<option value=%s onclick="%s">%s</option>' % (image, onclick, os.path.basename(image))
+            else:
+                html += '<option value=%s onclick="%s">%s</option>' % (image, onclick, image.replace(BUTLER.repo_output, ''))
+        html += "</select>"
+        html += "</div>"
+    
     return html
 
 
@@ -186,8 +205,9 @@ def make_link(filename=None):
     basename = "drpexplorer/explorer/static/links/%s" % file_name
     
     # Create the link without the extension
-    if not os.path.islink(basename) and not os.path.islink(basename):
-        os.symlink(os.path.join(file_path, file_name), basename)
+    if os.path.islink(basename):
+        os.remove(basename)
+    os.symlink(os.path.join(file_path, file_name), basename)
     
     # Return the base name plus the extension
     return basename+extension
@@ -204,16 +224,7 @@ def js9():
     msg = "<h3>JS9 window utility (<a href=https://js9.si.edu/ target='_blanck'>website</a>, <a href=https://github.com/ericmandel/js9 target='_blanck'>github</a>)</h3>"
     msg += "<p>Use <b>File -> open local file...</b> to load a local file, or the following input box for a file on the server.</p>"
     msg += "<input type='text' id='filetoload' value='Absolute path of a file located on the running server.' style='width: 500px'> "
-    msg += "<button onclick='loadmyfile()'>Load me</button>"
-    msg += """
-    <script>
-    function loadmyfile() {
-        var myfile = document.getElementById("filetoload").value;
-        $.getJSON(`/makelink/` + myfile, function (mylink) { JS9.Load(mylink['link'], {scale: 'log', zoom: 'to fit'}) });
-    }
-    </script>"""
-    
-    msg += ""
+    msg += "<button onclick='loadmyfile()'>Load me</button>"    
     lines = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_content.txt"), "r").readlines()
     page = "".join([(line if not '<body' in line else '<body>') for line in lines])
     page = page.replace("INFO", msg)
