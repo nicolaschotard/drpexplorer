@@ -1,4 +1,5 @@
 import os
+import numpy
 from django.conf import settings
 from MarkupPy import markup
 from drpexplorer.explorer import utils
@@ -28,9 +29,9 @@ def drp():
     
     # Info on the mapper, camera, package
     page.addcontent("<h4>Mapper info<h4>")
-    page.addcontent("<p> - <b>Package</b>: %s" % BUTLER.mapper_package)
-    page.addcontent("<p> - <b>Camera</b>: %s" % BUTLER.mapper_camera)
-    page.addcontent("<p> - <b>Name</b>: %s" % BUTLER.mapper_name)
+    page.addcontent("<p> - <b>Package</b>: %s</p>" % BUTLER.mapper_package)
+    page.addcontent("<p> - <b>Camera</b>: %s</p>" % BUTLER.mapper_camera)
+    page.addcontent("<p> - <b>Name</b>: %s</p>" % BUTLER.mapper_name)
     
     # Other info, filter, skymap, etc.
     page.addcontent("<h4>Other info</h4>")
@@ -71,13 +72,14 @@ def visits():
 
 def get_visit_info(visit):
     dataids = [dataid for dataid in BUTLER.dataIds['raw'] if visit == str(dataid['visit'])]
-    myimage = BUTLER.get_file('raw', dataids[0])[0]
-    html = open(os.path.join(settings.BASE_DIR, "drpexplorer/explorer/js9_viewer.txt"), "r").read()
-    html = html.replace("MYIMAGE", myimage)
+    images = numpy.concatenate([BUTLER.get_file('raw', dataid) for dataid in dataids])
+    html = "<br/><p>Selected visit: %s</p>" % visit
+    html += "<p>Raw data files:</p>"
+    for image in images:
+        html += """<p><a href="" onclick="window.open('js9preload/%s', 'newwindow', 'width=800,height=800'); 
+                         return false;"
+                      >%s</a></p>""" % (image, image)
     return html
-    #html = "<br/>Selected visit: %s" % visit
-    #html += "Raw data file: %s" % myimage
-    #return html
 
 
 def configs():
@@ -163,20 +165,31 @@ def js9preload(filename=None):
 def make_link(filename=None):
     if filename is None:
         return None
+    
     # Make sure the directory containing the symbolic links exists
     if not os.path.isdir("drpexplorer/explorer/static/links/"):
         os.mkdir("drpexplorer/explorer/static/links/")
+    
     # Name of the file to load, and create a link if it does not exist yet
-    basename = "drpexplorer/explorer/static/links/%s" % os.path.basename(filename)
+    file_path = os.path.dirname(filename)
+    file_name = os.path.basename(filename)
+    
     # Does it have an extension?  [1]
-    baseext = basename.split('[')
+    baseext = file_name.split('[')
     if len(baseext) > 1:
-        basename = baseext[0]
+        file_name = baseext[0]
         extension = '[' + baseext[1]
     else:
         extension = ''
-    if not os.path.exists(basename):
-        os.symlink(filename, basename)
+        
+    # Base name to create the link at the proper place
+    basename = "drpexplorer/explorer/static/links/%s" % file_name
+    
+    # Create the link without the extension
+    if not os.path.islink(basename) and not os.path.islink(basename):
+        os.symlink(os.path.join(file_path, file_name), basename)
+    
+    # Return the base name plus the extension
     return basename+extension
 
 
