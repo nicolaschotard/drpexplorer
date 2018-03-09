@@ -17,28 +17,55 @@ def home():
     return page
 
 
+def square_list(items):
+    html = '<ul style="list-style-type:square">'
+    html += "".join(["<li>%s</li>" % item for item in items])
+    html += '</ul>'
+    return html
+ 
+
 def drp():
     """Overview of the current DRP content."""
     page = markup.page()
     
     # General info on the data repository
-    page.addcontent("<h3>General info on the current DRP</h3>")
-    page.addcontent("<h4>Paths to the repositories</h4>")
-    page.addcontent("<p> - <b>Input</b>: %s</p>" % BUTLER.repo_input)
-    page.addcontent("<p> - <b>Output</b>: %s</p>" % BUTLER.repo_output)
+    page.addcontent("<h2>General info on the current DRP</h2>")
     
+    # Repos
+    page.addcontent("<h3>Paths to the repositories</h3>")
+    page.addcontent(square_list(["<b>Input</b>: %s</li>" % BUTLER.repo_input,
+                                 "<b>Output</b>: %s</li>" % BUTLER.repo_output
+                                ]
+                               )
+                   )
+
     # Info on the mapper, camera, package
-    page.addcontent("<h4>Mapper info<h4>")
-    page.addcontent("<p> - <b>Package</b>: %s</p>" % BUTLER.mapper_package)
-    page.addcontent("<p> - <b>Camera</b>: %s</p>" % BUTLER.mapper_camera)
-    page.addcontent("<p> - <b>Name</b>: %s</p>" % BUTLER.mapper_name)
+    page.addcontent("<h3>Mapper info</h3>")
+    page.addcontent(square_list(["<b>Package</b>: %s" % BUTLER.mapper_package,
+                                 "<b>Camera</b>: %s" % BUTLER.mapper_camera,
+                                 "<b>Name</b>: %s" % BUTLER.mapper_name
+                                ]
+                               )
+                   )
+        
+    page.addcontent("<h3>Filters and visits</h3>")
+    page.addcontent("<table>")
+    page.addcontent("<tr><th>Name</th>")
+    page.addcontent("".join(["<td>%s</td>" % filt for filt in BUTLER.filters]))
+    page.addcontent("</tr>")
+    page.addcontent("<tr><th>#Visits</th>")
+    page.addcontent("".join(["<td>%i</td>" % len(BUTLER.visits[filt]) for filt in BUTLER.filters]))
+    page.addcontent("</tr>")
+    page.addcontent("</table>")
     
     # Other info, filter, skymap, etc.
-    page.addcontent("<h4>Other info</h4>")
-    page.addcontent("<p> - <b>Filters</b>: %s</p>" % ", ".join(BUTLER.filters))
+    items = []
     if hasattr(BUTLER, 'skymap'):
-        page.addcontent("<p> - <b>Sky map</b>: %s</p>" % str(BUTLER.skymap_name))
-    
+        items.append("<b>Sky map</b>: %s" % str(BUTLER.skymap_name))
+    if len(items):
+        page.addcontent("<h3>Other info</h3>")
+        page.addcontent(square_list(items))
+
     return page
 
 
@@ -106,7 +133,7 @@ def configs():
     page = markup.page()
     style = "width=300px;"
     onclick = '"getconfiginfo(theitem)"'
-    page.addcontent("<h3>Scripts configurations</h3> Click on a configuration to get more info.<p>")
+    page.addcontent("<h2>Scripts configurations</h2> Click on a configuration to get more info.<p>")
     page.addcontent(make_list("config", "", BUTLER.configs, style=style, onclick=onclick))
     page.addcontent('<div style="clear:left" id="ConfigInfoDiv"></div>')
     return page
@@ -117,7 +144,7 @@ def schema():
     page = markup.page()
     style = "width=300px;"
     onclick = '"getschemainfo(theitem)"'
-    page.addcontent("<h3>Catalogs schema</h3> Click on a schema to get more info.<p>")
+    page.addcontent("<h2>Catalogs schema</h2> Click on a schema to get more info.<p>")
     page.addcontent(make_list("schema", "", BUTLER.schemas, style=style, onclick=onclick))
     page.addcontent('<div style="clear:left" id="SchemaInfoDiv"></div>')
     return page
@@ -244,22 +271,21 @@ def explorer():
     # Initialize html page
     page = utils.init_page()
 
-    # tabs
-     
-    possibletabs = {'home': ['<font color="red">Home</font>', home().__str__()],
-                    'drp': ['<font color="green">DRP</font>', drp().__str__()],
-                    'visits': ['<font color="orange">Visits</font>', visits().__str__()],
-                    'skymap': ['<font color="red">Sky Map</font>', default_page().__str__()],
-                    'astrometry': ['<font color="red">Astrometry</font>', default_page().__str__()],
-                    'photometry': ['<font color="red">Photometry</font>', default_page().__str__()],
-                    'refcat': ['<font color="red">Ref. Cat.</font>', default_page().__str__()],
-                    'images': ['<font color="orange">Images</font>', images().__str__()],
-                    'catalogs': ['<font color="red">Catalogs</font>', default_page().__str__()],
-                    'historic': ['<font color="red">Historic</font>', default_page().__str__()],
-                    'configs': ['<font color="orange">Configs</font>', configs().__str__()],
-                    'schema': ['<font color="orange">Schema</font>', schema().__str__()],
-                    'js9': ['<font color="green">JS9</font>', js9().__str__()],
-                    'help': ['<font color="red">Help!</font>', help()]
+    # tabs     
+    possibletabs = {'home': ['Home', home().__str__()],
+                    'drp': ['DRP', drp().__str__()],
+                    'visits': ['Visits', visits().__str__()],
+                    #'skymap': ['Sky Map', default_page().__str__()],
+                    #'astrometry': ['Astrometry', default_page().__str__()],
+                    #'photometry': ['Photometry', default_page().__str__()],
+                    #'refcat': ['Ref. Cat.', default_page().__str__()],
+                    #'images': ['Images', images().__str__()],
+                    #'catalogs': ['Catalogs', default_page().__str__()],
+                    #'historic': ['Historic', default_page().__str__()],
+                    'configs': ['Configs', configs().__str__()],
+                    'schema': ['Schema', schema().__str__()],
+                    'js9': ['JS9', js9().__str__()],
+                    #'help': ['Help!', help()]
                    }
 
     default = list(possibletabs.keys())
@@ -272,7 +298,7 @@ def explorer():
 
     # and corresponding content divs
     for t in tabs:
-        page.div(t[2], id=t[0].replace('#', ''))
+        page.div(t[2], id=t[0].replace('#', ''), style="height: 89%; overflow-y: auto;")
     page.div.close()
 
     return page

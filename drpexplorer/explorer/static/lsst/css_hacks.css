@@ -1,15 +1,9 @@
 
 body, html {
     margin: 0px;
-    /*font-family: "Verdana", sans-serif;*/
-    font-size: 95%;
+    font-family: arial, sans-serif;
+    font-size: 100%;
     height: 100%;
-    /*overflow-y: scroll;*/
-}
-
-ul, li{
-    margin:0;
-    padding:0 0 0 10px;     
 }
 
 label { 
@@ -25,26 +19,18 @@ label {
     margin: 0 10px 0 0;
 }
 
-table.pretty {
-    margin: 1em 1em 1em 1em;
-    background: whitesmoke;
+table {
+    font-family: arial, sans-serif;
     border-collapse: collapse;
-    font-size: 1em;
-    font-family: "Verdana", sans-serif;
-}
-table.pretty th, table.pretty td {
-    border: 1px silver solid;
-    padding: 0.2em;
-    text-align: center;
-}
-table.pretty th {
-    background: gainsboro;
-}
-table.pretty caption {
-    margin-left: inherit;
-    margin-right: inherit;
+    width: 50%;
 }
 
-table.pretty ul {
-    margin-left: 10px; padding-left:10px;
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(odd) {
+    background-color: #dddddd;
 }

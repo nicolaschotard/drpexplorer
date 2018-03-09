@@ -9,7 +9,7 @@ def init_page():
     head = '<link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">'
     footer = '%s - %s' % ("LSST Data Release Processing explorer",
                           settings.ADMIN[1])
-    footer = "<div align='right'><font size='2'>%s</font><?div>" % footer
+    footer = "<div align='right'><font size='2'>%s </font></div>" % footer
     # flot library
     script = [staticpath + 'flot/' + p.split('/')[-1]
               for p in glob(settings.STATICFILES_DIRS[0] + '/flot/*.min.js')]
